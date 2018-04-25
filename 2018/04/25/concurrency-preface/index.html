@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Tags｜Wavy&#39;s blog
+        并发那些事儿——写在前面的话｜Wavy&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="https://wavypeng.github.io/Tags/">
+    <link rel="canonical" href="https://wavypeng.github.io/2018/04/25/concurrency-preface/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -43,7 +43,7 @@
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="" class="animated fadeIn">
 <!-- Navigation -->
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "false" data-istags="false
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
 " data-ishome = "false" >
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -131,84 +131,133 @@
 </script>
 
 <!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//p7mo7b110.bkt.clouddn.com//image/header/concurrency-preface-header.jpg">
+
+
 <style>
-    .intro-header .site-heading {
-        margin: 50px;
-    }
     
     header.intro-header {
-        background-image: url('//p7mo7b110.bkt.clouddn.com//image/bg/post-header-bg.png?imageView2/1/w/1400/h/400/interlace/1/q/90')
+        background-image: url('//p7mo7b110.bkt.clouddn.com//image/header/concurrency-preface-header.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
     }
+
     
 </style>
 
-<!-- Page Header -->
 <header class="intro-header">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
-                <div class="site-heading text-center">
-                    <h1>Tags</h1>
-                    <span class="subheading"></span>
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>并发那些事儿——写在前面的话</h1>
+                    
+                    <span class="meta">
+                         作者 Wavy Peng
+                        <span>
+                          日期 2018-04-25
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#并发"
+                           title="并发">并发</a>
+                        
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            并发那些事儿——写在前面的话
+        </span>
     </div>
 </header>
 
-<!-- Main Content -->
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <!-- 标签云 -->
-            <div id='tag_cloud' class="tags">
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>越想深入地学习越发现，自己在本科时期曾经天真地以为没有什么实际用途的操作系统、体系结构等课程（原谅我的浅薄无知😭），和现在这些技术有着千丝万缕的关系。</p>
+<p>之所以没有把文章起名为<code>并发编程学习笔记</code>是不想它变得像公式书一般沉重，只希望在这段时光里，我可以轻松快乐地记录学习中的点点滴滴。</p>
+<p>合抱之木，生于毫末</p>
+<p>九层之台，起于累土</p>
+<p>千里之行，始于足下</p>
+<p>未来，还有很长的路要走呢！</p>
+<p>最后，笔者是个小萌新，如有错误之处，欢迎交流指正😄~</p>
+
+                <hr>
                 
-                <a href="#并发" title="并发" rel="1">并发</a>
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/04/21/hello-world/" data-toggle="tooltip" data-placement="top"
+                           title="Hello My Blog">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
                 
-                <a href="#闲的" title="闲的" rel="1">闲的</a>
+
+                
+
+
+                <!--加入新的评论系统-->
                 
             </div>
 
-            <!-- 标签列表 -->
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="并发">
-                    <span class="tag-text">并发</span>
-                </span>
-                
-                <div class="post-preview">
-                    <a href="/2018/04/25/concurrency-preface/">
-                        <h2 class="post-title">
-                            并发那些事儿——写在前面的话
-                        </h2>
-                        
-                    </a>
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    
                 </div>
-                <hr>
-                
             </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="闲的">
-                    <span class="tag-text">闲的</span>
-                </span>
-                
-                <div class="post-preview">
-                    <a href="/2018/04/21/hello-world/">
-                        <h2 class="post-title">
-                            Hello My Blog
-                        </h2>
-                        
-                    </a>
-                </div>
-                <hr>
-                
-            </div>
-            
-
         </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#并发"
+                           title="并发">并发</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
     </div>
-</div>
+</article>
+
+
+
+
+
+
 
 <!-- Footer -->
 <!-- Footer -->
