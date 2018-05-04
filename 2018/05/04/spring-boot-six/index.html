@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Keep it Simple, Stupid">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/img/favicon.png">
+    <link rel="alternate" type="application/atom+xml" title="WavyPeng" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Spring Boot小记(6)｜Wavy&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://wavypeng.github.io/2018/05/04/spring-boot-six/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    WavyPeng
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/My-Works/">My Works</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//p7mo7b110.bkt.clouddn.com/image/header/spring-boot-header.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('//p7mo7b110.bkt.clouddn.com/image/header/spring-boot-header.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Spring Boot小记(6)</h1>
+                    
+                    <h2 class="subheading">配置那些小事</h2>
+                    
+                    <span class="meta">
+                         作者 Wavy Peng
+                        <span>
+                          日期 2018-05-04
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#Spring Boot"
+                           title="Spring Boot">Spring Boot</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Spring Boot小记(6)
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h3 id="加载位置"><a href="#加载位置" class="headerlink" title="加载位置"></a>加载位置</h3><p>Spring Boot启动会扫描以下位置的<code>application.properties</code>或者<code>application.yml</code>文件作为Spring Boot的默认配置文件。</p>
+<ul>
+<li>file: ./config/</li>
+<li>file: ./</li>
+<li>classpath: /config/</li>
+<li>classpath: /</li>
+</ul>
+<p>以上是按照<strong>优先级从高到低</strong>的顺序，所有位置的文件都会被加载，<strong>高优先级配置</strong>内容会<strong>覆盖低优先级配置</strong>内容。</p>
+<p>Spring Boot会从这四个位置全部加载主配置文件，而且采用<strong>互补配置</strong>。</p>
+<p>也可以通过配置<code>spring.config.location</code>来改变默认配置。</p>
+<p><strong>项目打包好以后，可以使用命令行参数的形式，启动项目的时候来指定配置文件的新位置；指定配置文件和默认加载的这些配置文件共同起作用形成互补配置。</strong></p>
+<h3 id="加载顺序"><a href="#加载顺序" class="headerlink" title="加载顺序"></a>加载顺序</h3><p>Spring Boot支持多种外部配置方式</p>
+<p>这些方式<strong>优先级从高到低</strong>如下：</p>
+<ul>
+<li>1、命令行参数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">java -jar spring-boot-02-config-02-0.0.l-SNAPSHOT.jar --server.port=8087</span><br><span class="line">多个配置用空格分开：--配置项=值</span><br></pre></td></tr></table></figure>
+<ul>
+<li>2、来自java:comp/env的JNDI属性</li>
+<li>3、Java系统属性(System.getProperties())</li>
+<li>4、操作系统环境变量</li>
+<li>5、RandomValuePropertySource配置的random.*属性值</li>
+</ul>
+<hr>
+<blockquote>
+<p>由jar包外向jar包内寻找，优先加载带profile的配置</p>
+</blockquote>
+<ul>
+<li>6、jar包<strong>外部</strong>的application-{profile}.properties或application.yml（带spring.profile）配置文件</li>
+<li>7、jar包<strong>内部</strong>的application-{profile}.properties或application.yml（带spring.profile）配置文件</li>
+<li>8、jar包<strong>外部</strong>的application.properties或application.yml（不带spring.profile）配置文件</li>
+<li>9、jar包<strong>内部</strong>的application.properties或application.yml（不带spring.profile）配置文件</li>
+</ul>
+<hr>
+<ul>
+<li>10、@Configuration注解类上的@PropertySource</li>
+<li>11、通过SpringApplication.setDefaultProperties指定的默认属性</li>
+</ul>
+<p><strong>以上配置方式高优先级的配置覆盖低优先级的配置，所有的配置会形成互补配置。</strong></p>
+<p>【注】详情可参考<a href="https://docs.spring.io/spring-boot/docs/1.5.12.RELEASE/reference/htmlsingle/#boot-features-external-config" target="_blank" rel="noopener">官方文档</a></p>
+<h3 id="自动配置原理"><a href="#自动配置原理" class="headerlink" title="自动配置原理"></a>自动配置原理</h3><p><code>properties</code>和<code>yml</code>文件能配置的属性<a href="https://docs.spring.io/spring-boot/docs/1.5.12.RELEASE/reference/htmlsingle/#common-application-properties" target="_blank" rel="noopener">参照</a></p>
+<ul>
+<li><p>1、Spring Boot启动时加载主配置类，开启了自动配置功能<strong>@EnableAutoConfiguration</strong></p>
+</li>
+<li><p>2、<strong>@EnableAutoConfiguration</strong>作用：</p>
+<ul>
+<li>利用<code>AutoConfigurationImportSelector</code>给容器中导入一些组件。</li>
+<li>可以查看其<code>selectImports()</code>方法的内容，其中通过List configurations = this.getCandidateConfigurations(annotationMetadata, attributes);获取候选的配置。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">SpringFactoriesLoader.loadFactoryNames()</span><br><span class="line">扫描所有jar包类路径下的META-INF/spring.factories</span><br><span class="line">把扫描到的这些文件的内容包装成properties对象</span><br><span class="line">从properties中获取到EnableAutoConfiguration.class类（类名）对应的值，然后把他们添加在容器中。</span><br></pre></td></tr></table></figure>
+<p>将类路径下META-INF/spring.factories里面配置的所有EnableAutoConfiguration的值加入到了容器中：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Auto Configure</span><br><span class="line">org.springframework.boot.autoconfigure.EnableAutoConfiguration=\</span><br><span class="line">org.springframework.boot.autoconfigure.admin.SpringApplicationAdminJmxAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.aop.AopAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.cassandra.CassandraAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.cloud.CloudAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.context.ConfigurationPropertiesAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.couchbase.CouchbaseAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.dao.PersistenceExceptionTranslationAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.data.cassandra.CassandraDataAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.data.cassandra.CassandraReactiveDataAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.data.cassandra.CassandraReactiveRepositoriesAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.data.cassandra.CassandraRepositoriesAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.data.couchbase.CouchbaseDataAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.data.couchbase.CouchbaseReactiveDataAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.data.couchbase.CouchbaseReactiveRepositoriesAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.data.couchbase.CouchbaseRepositoriesAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchDataAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchRepositoriesAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.data.ldap.LdapDataAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.data.ldap.LdapRepositoriesAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.data.mongo.MongoReactiveDataAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.data.mongo.MongoReactiveRepositoriesAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.data.mongo.MongoRepositoriesAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.data.neo4j.Neo4jDataAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.data.neo4j.Neo4jRepositoriesAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.data.solr.SolrRepositoriesAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.data.redis.RedisReactiveAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.data.rest.RepositoryRestMvcAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.data.web.SpringDataWebAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.elasticsearch.jest.JestAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.hateoas.HypermediaAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.hazelcast.HazelcastAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.hazelcast.HazelcastJpaDependencyAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.http.codec.CodecsAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.influx.InfluxDbAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.info.ProjectInfoAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.integration.IntegrationAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.jdbc.JndiDataSourceAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.jdbc.XADataSourceAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.jms.JmsAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.jmx.JmxAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.jms.JndiConnectionFactoryAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.jms.activemq.ActiveMQAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.jms.artemis.ArtemisAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.groovy.template.GroovyTemplateAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.jersey.JerseyAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.jooq.JooqAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.jsonb.JsonbAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.ldap.embedded.EmbeddedLdapAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.ldap.LdapAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.mail.MailSenderValidatorAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.mongo.MongoReactiveAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.mustache.MustacheAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.quartz.QuartzAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.reactor.core.ReactorCoreAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.security.reactive.ReactiveSecurityAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.security.reactive.ReactiveUserDetailsServiceAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.sendgrid.SendGridAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.session.SessionAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.solr.SolrAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.transaction.jta.JtaAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.web.embedded.EmbeddedWebServerFactoryCustomizerAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.web.reactive.HttpHandlerAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.web.reactive.ReactiveWebServerFactoryAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.web.reactive.WebFluxAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.web.reactive.error.ErrorWebFluxAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.web.servlet.HttpEncodingAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.websocket.reactive.WebSocketReactiveAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.websocket.servlet.WebSocketServletAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.websocket.servlet.WebSocketMessagingAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.webservices.WebServicesAutoConfiguration</span><br></pre></td></tr></table></figure>
+<p>每一个这样的xxxAutoConfiguration类都是容器中的一个组件，都加入到容器中；用它们来做自动配置。</p>
+</li>
+<li><p>3、每一个自动配置类进行自动配置功能</p>
+</li>
+<li><p>4、以<code>HttpEncodingAutoConfiguration</code>为例解释自动配置原理</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//表示这是一个配置类，同以前编写的配置文件一样，也可以给容器添加组件</span></span><br><span class="line"><span class="meta">@Configuration</span>   </span><br><span class="line"><span class="comment">//启用指定类的ConfigurationProperties功能；将配置文件中对应的值和HttpEncodingProperties绑定起来；并把HttpEncodingProperties加入到ioc容器中</span></span><br><span class="line"><span class="meta">@EnableConfigurationProperties</span>(&#123;HttpEncodingProperties.class&#125;)</span><br><span class="line"><span class="comment">//Spring底层@Conditoinal注解，如果满足指定条件，整个配置类中的配置就会生效；判断当前应用是否是web应用，如果是，当前配置类生效</span></span><br><span class="line"><span class="meta">@ConditionalOnWebApplication</span>(</span><br><span class="line">    type = Type.SERVLET</span><br><span class="line">)</span><br><span class="line"><span class="comment">//判断当前项目有没有CharacterEncodingFilter类</span></span><br><span class="line"><span class="comment">//CharacterEncodingFilter：SpringMVC中进行乱码解决的过滤器</span></span><br><span class="line"><span class="meta">@ConditionalOnClass</span>(&#123;CharacterEncodingFilter.class&#125;)</span><br><span class="line"><span class="comment">//判断配置文件中是否存在某个配置 spring.http.encoding</span></span><br><span class="line"><span class="comment">//即使配置文件中不配置spring.http.encoding，也是默认生效的</span></span><br><span class="line"><span class="meta">@ConditionalOnProperty</span>(</span><br><span class="line">    prefix = <span class="string">"spring.http.encoding"</span>,</span><br><span class="line">    value = &#123;<span class="string">"enabled"</span>&#125;,</span><br><span class="line">    matchIfMissing = <span class="keyword">true</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HttpEncodingAutoConfiguration</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//已经和Spring Boot的配置文件映射了</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> HttpEncodingProperties properties;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//只有一个有参构造器的情况下，参数的值就会从容器中拿</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HttpEncodingAutoConfiguration</span><span class="params">(HttpEncodingProperties properties)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.properties = properties;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//给容器中添加一个组件，这个组件的某些值需要从properties中获取</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@ConditionalOnMissingBean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> CharacterEncodingFilter <span class="title">characterEncodingFilter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        OrderedCharacterEncodingFilter filter = <span class="keyword">new</span> OrderedCharacterEncodingFilter();</span><br><span class="line">        filter.setEncoding(<span class="keyword">this</span>.properties.getCharset().name());</span><br><span class="line">        filter.setForceRequestEncoding(<span class="keyword">this</span>.properties.shouldForce(org.springframework.boot.autoconfigure.http.HttpEncodingProperties.Type.REQUEST));</span><br><span class="line">        filter.setForceResponseEncoding(<span class="keyword">this</span>.properties.shouldForce(org.springframework.boot.autoconfigure.http.HttpEncodingProperties.Type.RESPONSE));</span><br><span class="line">        <span class="keyword">return</span> filter;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>5、所有在配置文件中能配置的属性都是在xxxxProperties类中封装着。配置文件能配置什么参照某个功能对应的这个属性类</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//此注解表明从配置文件中获取指定的值和bean的属性进行绑定</span></span><br><span class="line"><span class="meta">@ConfigurationProperties</span>(</span><br><span class="line">  prefix = <span class="string">"spring.http.encoding"</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HttpEncodingProperties</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>总结：</strong></p>
+<p>根据当前不同的条件判断，决定这个配置类是否生效。一旦这个配置类生效，就会给容器中添加各种组件；这些组件的属性是从对应的properties类中获取的，这些类里面的每一个属性又是和配置文件绑定的。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018/05/04/spring-boot-seven/" data-toggle="tooltip" data-placement="top"
+                           title="Spring Boot小记(7)">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/05/04/spring-boot-five/" data-toggle="tooltip" data-placement="top"
+                           title="Spring Boot小记(5)">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#加载位置"><span class="toc-text">加载位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#加载顺序"><span class="toc-text">加载顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自动配置原理"><span class="toc-text">自动配置原理</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#Spring Boot"
+                           title="Spring Boot">Spring Boot</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/WavyPeng">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; WavyPeng 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://wavypeng.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-118054505-1';
+    var _gaDomain = 'auto';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '81b7347f8ffef0f2709479c2038df00d';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/img/avatar1.png">
+</body>
+
+</html>

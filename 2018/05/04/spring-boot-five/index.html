@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Wavy&#39;s blog
+        Spring Boot小记(5)｜Wavy&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="https://wavypeng.github.io/categories/随笔/">
+    <link rel="canonical" href="https://wavypeng.github.io/2018/05/04/spring-boot-five/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -43,7 +43,7 @@
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="" class="animated fadeIn">
 <!-- Navigation -->
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "false" data-istags="false
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
 " data-ishome = "false" >
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -131,276 +131,154 @@
 </script>
 
 <!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//p7mo7b110.bkt.clouddn.com/image/header/spring-boot-header.jpg">
+
+
 <style>
-    .intro-header .site-heading {
-        margin: 50px;
-    }
     
     header.intro-header {
-        background-image: url('/image/bg/post-header-bg.png')
+        background-image: url('//p7mo7b110.bkt.clouddn.com/image/header/spring-boot-header.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
     }
+
     
 </style>
 
-<!-- Page Header -->
 <header class="intro-header">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
-                <div class="site-heading text-center">
-                    <h1>archives</h1>
-                    <span class="subheading">可以根据归档日期检索所有文件</span>
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Spring Boot小记(5)</h1>
+                    
+                    <h2 class="subheading">profile</h2>
+                    
+                    <span class="meta">
+                         作者 Wavy Peng
+                        <span>
+                          日期 2018-05-04
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#Spring Boot"
+                           title="Spring Boot">Spring Boot</a>
+                        
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="post-title-haojen">
+        <span>
+            Spring Boot小记(5)
+        </span>
+    </div>
 </header>
 
-<!-- Main Content -->
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <!-- archive list -->
-            
-				
-				
-				
-					
-					
-					<div class="archive archive-year" data-date="2018">
-						<h2 class="archive-title">
-						<span class="fa fa-archive">
-							<a href="/archives/2018">2018</a>
-						</span>
-						</h2>
-				
-				
-					
-					
-					<div class="archive archive-month" data-date="201805">
-						<h3 class="archive-title">
-							<a href="/archives/2018/05">05</a>
-						</h3>
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2018/05/04/spring-boot-eight/">
-                        <h4 class="post-title">
-                            Spring Boot小记(8)
-                        </h4>
-                        
-                        <h4 class="post-subtitle">
-                            日志
-                        </h4>
-                        
-                    </a>
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h3 id="Profile"><a href="#Profile" class="headerlink" title="Profile"></a>Profile</h3><blockquote>
+<p>Profile是Spring对不同环境提供不同配置功能的支持，可以通过激活、指定参数等方式快速切换环境。</p>
+</blockquote>
+<p>1、多profile文件形式：</p>
+<p>格式：<code>application-{profile}.properties/yml</code>，例如：application-dev.properties、application-prod.properties</p>
+<p>默认使用<strong>application.properties</strong>的配置。想要激活其他配置文件中的配置，可在<strong>application.properties</strong>中指定<code>spring.profiles.active=dev</code></p>
+<p>2、多profile文档块模式：</p>
+<blockquote>
+<p><code>yml</code>支持多文档块方式</p>
+</blockquote>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">8081</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  profiles:</span></span><br><span class="line"><span class="attr">    active:</span> <span class="string">dev</span>   <span class="comment">#在此处指定激活哪个配置</span></span><br><span class="line"></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">8083</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  profiles:</span> <span class="string">dev</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">8084</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  profiles:</span> <span class="string">prod</span></span><br></pre></td></tr></table></figure>
+<p>3、激活方式：</p>
+<ul>
+<li>命令行   –spring.profiles.active=dev</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/spring-boot/%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE.png" alt="1525415273081"></p>
+<ul>
+<li>配置文件   spring.profiles.active=dev</li>
+<li>jvm参数    -Dspring.profiles.active=dev</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/spring-boot/jvm%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE.png" alt="1525415173280"></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018/05/04/spring-boot-six/" data-toggle="tooltip" data-placement="top"
+                           title="Spring Boot小记(6)">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/05/04/spring-boot-four/" data-toggle="tooltip" data-placement="top"
+                           title="Spring Boot小记(4)">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Profile"><span class="toc-text">Profile</span></a></li></ol>
                 </div>
-				<hr>
-				</div>
-            
-				
-				
-				
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2018/05/04/spring-boot-seven/">
-                        <h4 class="post-title">
-                            Spring Boot小记(7)
-                        </h4>
-                        
-                        <h4 class="post-subtitle">
-                            @Conditional
-                        </h4>
-                        
-                    </a>
-                </div>
-				<hr>
-				</div>
-            
-				
-				
-				
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2018/05/04/spring-boot-six/">
-                        <h4 class="post-title">
-                            Spring Boot小记(6)
-                        </h4>
-                        
-                        <h4 class="post-subtitle">
-                            配置那些小事
-                        </h4>
-                        
-                    </a>
-                </div>
-				<hr>
-				</div>
-            
-				
-				
-				
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2018/05/04/spring-boot-five/">
-                        <h4 class="post-title">
-                            Spring Boot小记(5)
-                        </h4>
-                        
-                        <h4 class="post-subtitle">
-                            profile
-                        </h4>
-                        
-                    </a>
-                </div>
-				<hr>
-				</div>
-            
-				
-				
-				
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2018/05/04/spring-boot-four/">
-                        <h4 class="post-title">
-                            Spring Boot小记(4)
-                        </h4>
-                        
-                        <h4 class="post-subtitle">
-                            配置文件占位符
-                        </h4>
-                        
-                    </a>
-                </div>
-				<hr>
-				</div>
-            
-				
-				
-				
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2018/05/04/spring-boot-three/">
-                        <h4 class="post-title">
-                            Spring Boot小记(3)
-                        </h4>
-                        
-                        <h4 class="post-subtitle">
-                            @PropertySource、@ImportResource和@Bean
-                        </h4>
-                        
-                    </a>
-                </div>
-				<hr>
-				</div>
-            
-				
-				
-				
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2018/05/04/spring-boot-two/">
-                        <h4 class="post-title">
-                            Spring Boot小记(2)
-                        </h4>
-                        
-                        <h4 class="post-subtitle">
-                            @ConfigurationProperties与@Value区别
-                        </h4>
-                        
-                    </a>
-                </div>
-				<hr>
-				</div>
-            
-				
-				
-				
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2018/05/04/spring-boot-one/">
-                        <h4 class="post-title">
-                            Spring Boot小记(1)
-                        </h4>
-                        
-                        <h4 class="post-subtitle">
-                            初识YMAL
-                        </h4>
-                        
-                    </a>
-                </div>
-				<hr>
-				</div>
-            
-				
-				
-				
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2018/05/03/spring-boot-start/">
-                        <h4 class="post-title">
-                            Spring Boot小记(0)
-                        </h4>
-                        
-                        <h4 class="post-subtitle">
-                            小白第一步
-                        </h4>
-                        
-                    </a>
-                </div>
-				<hr>
-				</div>
-            
-				
-				
-				
-				
-					
-					</div><!--month-->
-					
-					
-					<div class="archive archive-month" data-date="201804">
-						<h3 class="archive-title">
-							<a href="/archives/2018/04">04</a>
-						</h3>
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2018/04/25/concurrency-preface/">
-                        <h4 class="post-title">
-                            并发那些事儿——写在前面的话
-                        </h4>
-                        
-                    </a>
-                </div>
-				<hr>
-				</div>
-            
-				
-				
-				
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2018/04/21/hello-world/">
-                        <h4 class="post-title">
-                            Hello My Blog
-                        </h4>
-                        
-                    </a>
-                </div>
-				<hr>
-				</div>
-            
+            </div>
         </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#Spring Boot"
+                           title="Spring Boot">Spring Boot</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
     </div>
+</article>
+
+
+
+
+
+
 
 <!-- Footer -->
 <!-- Footer -->
