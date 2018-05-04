@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Wavy&#39;s blog
+        Spring Boot小记｜Wavy&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="https://wavypeng.github.io/archives/">
+    <link rel="canonical" href="https://wavypeng.github.io/2018/05/04/spring-boot-two/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -43,7 +43,7 @@
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="" class="animated fadeIn">
 <!-- Navigation -->
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "false" data-istags="false
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
 " data-ishome = "false" >
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -131,196 +131,187 @@
 </script>
 
 <!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//p7mo7b110.bkt.clouddn.com/image/header/spring-boot-header.jpg">
+
+
 <style>
-    .intro-header .site-heading {
-        margin: 50px;
-    }
     
     header.intro-header {
-        background-image: url('/image/bg/post-header-bg.png')
+        background-image: url('//p7mo7b110.bkt.clouddn.com/image/header/spring-boot-header.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
     }
+
     
 </style>
 
-<!-- Page Header -->
 <header class="intro-header">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
-                <div class="site-heading text-center">
-                    <h1>archives</h1>
-                    <span class="subheading">可以根据归档日期检索所有文件</span>
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Spring Boot小记</h1>
+                    
+                    <h2 class="subheading">@ConfigurationProperties与@Value区别</h2>
+                    
+                    <span class="meta">
+                         作者 Wavy Peng
+                        <span>
+                          日期 2018-05-04
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#Spring Boot"
+                           title="Spring Boot">Spring Boot</a>
+                        
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="post-title-haojen">
+        <span>
+            Spring Boot小记
+        </span>
+    </div>
 </header>
 
-<!-- Main Content -->
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <!-- archive list -->
-            
-				
-				
-				
-					
-					
-					<div class="archive archive-year" data-date="2018">
-						<h2 class="archive-title">
-						<span class="fa fa-archive">
-							<a href="/archives/2018">2018</a>
-						</span>
-						</h2>
-				
-				
-					
-					
-					<div class="archive archive-month" data-date="201805">
-						<h3 class="archive-title">
-							<a href="/archives/2018/05">05</a>
-						</h3>
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2018/05/04/spring-boot-four/">
-                        <h4 class="post-title">
-                            Spring Boot小记
-                        </h4>
-                        
-                        <h4 class="post-subtitle">
-                            配置文件占位符
-                        </h4>
-                        
-                    </a>
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h3 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h3><table>
+<thead>
+<tr>
+<th></th>
+<th>@ConfigurationProperties</th>
+<th>@Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>功能</td>
+<td>批量注入配置文件中的属性</td>
+<td>一个个指定</td>
+</tr>
+<tr>
+<td>松散绑定（松散语法）</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>SpEL（Spring表达式）</td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>JSR303数据校验</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>复杂类型封装</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+</tbody>
+</table>
+<p><strong>解释</strong></p>
+<blockquote>
+<p>属性名匹配规则（Relaxed binding）</p>
+</blockquote>
+<ul>
+<li>person.firstName：使用标准方式</li>
+<li>person.first-name：大写用-</li>
+<li>person.first_name：大写用_</li>
+<li>PERSON_FIRST_NAME：推荐系统属性使用这种写法</li>
+</ul>
+<blockquote>
+<p>数据校验</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@ConfigurationProperties</span>(prefix = <span class="string">"person"</span>)</span><br><span class="line"><span class="meta">@Validated</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * &lt;bean class="Person"&gt;</span></span><br><span class="line"><span class="comment">     *     &lt;property name="lastName" value="字面量/$&#123;key&#125;从环境变量、配置文件中获取值/#&#123;SpEl&#125;"&gt;&lt;/property&gt;</span></span><br><span class="line"><span class="comment">     * &lt;/bean&gt;</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="comment">//lastName必须是邮箱格式</span></span><br><span class="line">    <span class="meta">@Email</span></span><br><span class="line">    <span class="comment">//@Value("$&#123;person.last-name&#125;")  //用@Value数据校验是无效的</span></span><br><span class="line">    <span class="keyword">private</span> String lastName;</span><br><span class="line">    <span class="comment">//@Value("#&#123;11*2&#125;")    //测试SpEL</span></span><br><span class="line">    <span class="keyword">private</span> Integer age;</span><br><span class="line">    <span class="comment">//@Value("true")</span></span><br><span class="line">    <span class="keyword">private</span> Boolean boss;</span><br></pre></td></tr></table></figure>
+<p><strong>总结</strong></p>
+<p>配置文件<code>yml</code>还是<code>properties</code>两种方式都能获取到值；</p>
+<p>如果只是在某个业务逻辑中需要获取一下配置文件中的某项值，使用@Value；</p>
+<p>如果专门编写一个JavaBean来和配置文件进行映射，可以直接使用@ConfigurationProperties；</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018/05/04/spring-boot-three/" data-toggle="tooltip" data-placement="top"
+                           title="Spring Boot小记">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/05/04/spring-boot-one/" data-toggle="tooltip" data-placement="top"
+                           title="Spring Boot小记">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#比较"><span class="toc-text">比较</span></a></li></ol>
                 </div>
-				<hr>
-				</div>
-            
-				
-				
-				
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2018/05/04/spring-boot-three/">
-                        <h4 class="post-title">
-                            Spring Boot小记
-                        </h4>
-                        
-                        <h4 class="post-subtitle">
-                            @PropertySource、@ImportResource和@Bean
-                        </h4>
-                        
-                    </a>
-                </div>
-				<hr>
-				</div>
-            
-				
-				
-				
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2018/05/04/spring-boot-two/">
-                        <h4 class="post-title">
-                            Spring Boot小记
-                        </h4>
-                        
-                        <h4 class="post-subtitle">
-                            @ConfigurationProperties与@Value区别
-                        </h4>
-                        
-                    </a>
-                </div>
-				<hr>
-				</div>
-            
-				
-				
-				
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2018/05/04/spring-boot-one/">
-                        <h4 class="post-title">
-                            Spring Boot小记
-                        </h4>
-                        
-                        <h4 class="post-subtitle">
-                            初识YMAL
-                        </h4>
-                        
-                    </a>
-                </div>
-				<hr>
-				</div>
-            
-				
-				
-				
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2018/05/03/spring-boot-start/">
-                        <h4 class="post-title">
-                            Spring Boot小记
-                        </h4>
-                        
-                        <h4 class="post-subtitle">
-                            小白第一步
-                        </h4>
-                        
-                    </a>
-                </div>
-				<hr>
-				</div>
-            
-				
-				
-				
-				
-					
-					</div><!--month-->
-					
-					
-					<div class="archive archive-month" data-date="201804">
-						<h3 class="archive-title">
-							<a href="/archives/2018/04">04</a>
-						</h3>
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2018/04/25/concurrency-preface/">
-                        <h4 class="post-title">
-                            并发那些事儿——写在前面的话
-                        </h4>
-                        
-                    </a>
-                </div>
-				<hr>
-				</div>
-            
-				
-				
-				
-				
-				<div class="one-tag-list">
-                <div class="post-preview">
-                    <a href="/2018/04/21/hello-world/">
-                        <h4 class="post-title">
-                            Hello My Blog
-                        </h4>
-                        
-                    </a>
-                </div>
-				<hr>
-				</div>
-            
+            </div>
         </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#Spring Boot"
+                           title="Spring Boot">Spring Boot</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
     </div>
+</article>
+
+
+
+
+
+
 
 <!-- Footer -->
 <!-- Footer -->
