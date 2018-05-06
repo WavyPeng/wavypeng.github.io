@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Keep it Simple, Stupid">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/img/favicon.png">
+    <link rel="alternate" type="application/atom+xml" title="WavyPeng" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Spring Boot小记(5)｜Wavy&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://wavypeng.github.io/2018/05/06/spring-boot-nine/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    WavyPeng
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/My-Works/">My Works</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//p7mo7b110.bkt.clouddn.com/image/header/spring-boot-header.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('//p7mo7b110.bkt.clouddn.com/image/header/spring-boot-header.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Spring Boot小记(5)</h1>
+                    
+                    <h2 class="subheading">thymeleaf</h2>
+                    
+                    <span class="meta">
+                         作者 Wavy Peng
+                        <span>
+                          日期 2018-05-06
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#Spring Boot"
+                           title="Spring Boot">Spring Boot</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Spring Boot小记(5)
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p><strong>使用Spring Boot</strong></p>
+<p>1、创建Spring Boot应用，选中需要的模块</p>
+<p>2、Spring Boot默认将这些场景配置好了，只需要在配置文件中指定少量配置就可运行</p>
+<p>3、编写业务代码</p>
+<p><strong>自动配置原理？</strong></p>
+<p>这个场景Spring Boot帮助我们配置了什么？能不能修改？能修改哪些配置？能不能扩展？…</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">xxxxAutoConfiguration：帮我们给容器中自动配置组件</span><br><span class="line">xxxxProperties：配置类来封装配置文件的内容</span><br></pre></td></tr></table></figure>
+<p><strong>Spring Boot对静态资源的映射规则</strong></p>
+<p>Spring Boot中添加资源映射的源码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@ConfigurationProperties</span>(</span><br><span class="line">    prefix = <span class="string">"spring.resources"</span>,</span><br><span class="line">    ignoreUnknownFields = <span class="keyword">false</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ResourceProperties</span> </span>&#123;</span><br><span class="line">    <span class="comment">//可以设置和静态资源有关的参数，如缓存时间等</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addResourceHandlers</span><span class="params">(ResourceHandlerRegistry registry)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(!<span class="keyword">this</span>.resourceProperties.isAddMappings()) &#123;</span><br><span class="line">                logger.debug(<span class="string">"Default resource handling disabled"</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                Duration cachePeriod = <span class="keyword">this</span>.resourceProperties.getCache().getPeriod();</span><br><span class="line">                CacheControl cacheControl = <span class="keyword">this</span>.resourceProperties.getCache().getCachecontrol().toHttpCacheControl();</span><br><span class="line">                <span class="keyword">if</span>(!registry.hasMappingForPattern(<span class="string">"/webjars/**"</span>)) &#123;</span><br><span class="line">                    <span class="keyword">this</span>.customizeResourceHandlerRegistration(registry.addResourceHandler(<span class="keyword">new</span> String[]&#123;<span class="string">"/webjars/**"</span>&#125;).addResourceLocations(<span class="keyword">new</span> String[]&#123;<span class="string">"classpath:/META-INF/resources/webjars/"</span>&#125;).setCachePeriod(<span class="keyword">this</span>.getSeconds(cachePeriod)).setCacheControl(cacheControl));</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                String staticPathPattern = <span class="keyword">this</span>.mvcProperties.getStaticPathPattern();</span><br><span class="line">                <span class="keyword">if</span>(!registry.hasMappingForPattern(staticPathPattern)) &#123;</span><br><span class="line">                    <span class="keyword">this</span>.customizeResourceHandlerRegistration(registry.addResourceHandler(<span class="keyword">new</span> String[]&#123;staticPathPattern&#125;).addResourceLocations(getResourceLocations(<span class="keyword">this</span>.resourceProperties.getStaticLocations())).setCachePeriod(<span class="keyword">this</span>.getSeconds(cachePeriod)).setCacheControl(cacheControl));</span><br><span class="line">    	&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//配置欢迎页映射</span></span><br><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> WelcomePageHandlerMapping <span class="title">welcomePageHandlerMapping</span><span class="params">(ApplicationContext applicationContext)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> WelcomePageHandlerMapping(<span class="keyword">new</span> TemplateAvailabilityProviders(applicationContext), applicationContext, <span class="keyword">this</span>.getWelcomePage(), <span class="keyword">this</span>.mvcProperties.getStaticPathPattern());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>分析：</strong></p>
+<p>1、所有<code>/webjars/**</code>下的请求，都去<code>classpath:/META-INF/resources/webjars/</code>下找资源。</p>
+<p><code>webjars</code>：以jar包的方式引入静态资源。<a href="http://www.webjars.org/" target="_blank" rel="noopener">相关网址</a></p>
+<p>以jquery为例，其结构目录如下：</p>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/spring-boot/webjars%E8%B7%AF%E5%BE%84.png" alt="webjars"></p>
+<p>在<code>pom.xml</code>中引入如下依赖：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 引入jquery-webjars --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.webjars<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jquery<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.3.1-1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在访问时只需要写<code>webjars</code>下面资源的名称即可</p>
+<p>比如通过<strong>localhost:8080/webjars/jquery/3.3.1-1/jquery.js</strong>即可访问下面jquery.js文件</p>
+<p>2、<code>/**</code>访问当前项目的任何资源（静态资源的文件夹）</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">"classpath:/META-INF/resources/", 类路径下的/META-INF/resources</span><br><span class="line">"classpath:/resources/", 类路径下的/resources</span><br><span class="line">"classpath:/static/", 类路径下的/static</span><br><span class="line">"classpath:/public/" 类路径下的/public</span><br><span class="line">"/"：当前项目的根路径</span><br></pre></td></tr></table></figure>
+<p><code>/java/</code>和<code>/resources/</code>是类路径(classpath)的根路径。</p>
+<p>访问规则：localhost:8080/abc === 到静态资源文件夹里找abc</p>
+<p>3、欢迎页，静态资源文件夹下的所有index.html页面，被<code>/**</code>映射</p>
+<p>localhost:8080/  找index页面</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> Resource <span class="title">getIndexHtml</span><span class="params">(String location)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.resourceLoader.getResource(location + <span class="string">"index.html"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4、所有的<code>**/favicon.ico</code>都是在静态资源文件下找</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line">        <span class="meta">@ConditionalOnProperty</span>(</span><br><span class="line">            value = &#123;<span class="string">"spring.mvc.favicon.enabled"</span>&#125;,</span><br><span class="line">            matchIfMissing = <span class="keyword">true</span></span><br><span class="line">        )</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">FaviconConfiguration</span> <span class="keyword">implements</span> <span class="title">ResourceLoaderAware</span> </span>&#123;</span><br><span class="line">            ... ...</span><br><span class="line">            <span class="meta">@Bean</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> SimpleUrlHandlerMapping <span class="title">faviconHandlerMapping</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                SimpleUrlHandlerMapping mapping = <span class="keyword">new</span> SimpleUrlHandlerMapping();</span><br><span class="line">                mapping.setOrder(-<span class="number">2147483647</span>);</span><br><span class="line">                mapping.setUrlMap(Collections.singletonMap(<span class="string">"**/favicon.ico"</span>, <span class="keyword">this</span>.faviconRequestHandler()));</span><br><span class="line">                <span class="keyword">return</span> mapping;</span><br><span class="line">            &#125;</span><br><span class="line">		... ...</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="模板引擎"><a href="#模板引擎" class="headerlink" title="模板引擎"></a>模板引擎</h3><p><strong>工作原理</strong></p>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/spring-boot/%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E.PNG" alt="模板引擎"></p>
+<p>Spring Boot推荐使用<code>Thymeleaf</code>，语法简单，功能强大</p>
+<p><strong>使用方法</strong></p>
+<p>1、引入thymeleaf</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 引入thymeleaf --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-thymeleaf<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 切换thymeleaf版本 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">thymeleaf.version</span>&gt;</span>3.0.9.RELEASE<span class="tag">&lt;/<span class="name">thymeleaf.version</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 布局功能的支持程序，thymeleaf3主程序 layout2以上版本 --&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- thymeleaf2 layout1--&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">thymeleaf-layout-dialect.version</span>&gt;</span>2.2.2<span class="tag">&lt;/<span class="name">thymeleaf-layout-dialect.version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>2、Thymeleaf使用&amp;语法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@ConfigurationProperties</span>(</span><br><span class="line">    prefix = <span class="string">"spring.thymeleaf"</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThymeleafProperties</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Charset DEFAULT_ENCODING;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String DEFAULT_PREFIX = <span class="string">"classpath:/templates/"</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String DEFAULT_SUFFIX = <span class="string">".html"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> checkTemplate = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> checkTemplateLocation = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">private</span> String prefix = <span class="string">"classpath:/templates/"</span>;</span><br><span class="line">    <span class="keyword">private</span> String suffix = <span class="string">".html"</span>;</span><br><span class="line">    <span class="keyword">private</span> String mode = <span class="string">"HTML"</span>;</span><br></pre></td></tr></table></figure>
+<p>说明：只要将HTML页面放在classpath:/templates/，thymeleaf就能自动渲染</p>
+<p>1、导入thymeleaf的名称空间</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span> <span class="attr">xmlns:th</span>=<span class="string">"http://www.thymeleaf.org"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>2、使用thymeleaf语法</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- th:text 设置div里面的文本内容--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:text</span>=<span class="string">"$&#123;hello&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>语法规则</strong></p>
+<blockquote>
+<p>th:text    改变当前元素里面的文本内容</p>
+</blockquote>
+<p>th：任意html属性，来替换原生属性的值</p>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/spring-boot/th%E5%B1%9E%E6%80%A7.PNG" alt="th属性"></p>
+<blockquote>
+<p>表达式</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Simple expressions:（表达式语法）</span><br><span class="line">    Variable Expressions: $&#123;...&#125;              #获取变量值，OGNL</span><br><span class="line">        说明：</span><br><span class="line">         1）获取对象的属性、调用方法</span><br><span class="line">         2）使用内置的基本对象：</span><br><span class="line">        #ctx: the context object.</span><br><span class="line">        #vars: the context variables.</span><br><span class="line">        #locale: the context locale.</span><br><span class="line">        #request: (only in Web Contexts) the HttpServletRequest object.</span><br><span class="line">        #response: (only in Web Contexts) the HttpServletResponse object.</span><br><span class="line">        #session: (only in Web Contexts) the HttpSession object.</span><br><span class="line">        #servletContext: (only in Web Contexts) the ServletContext object.</span><br><span class="line">         3）内置的一些工具对象</span><br><span class="line">         </span><br><span class="line">    Selection Variable Expressions: *&#123;...&#125;    #选择表达式，和$&#123;&#125;在功能上是一样的</span><br><span class="line">    	说明：配合th:object=&quot;$&#123;session.user&#125;&quot;</span><br><span class="line">    </span><br><span class="line">    Message Expressions: #&#123;...&#125;               #获取国际化内容</span><br><span class="line">    </span><br><span class="line">    Link URL Expressions: @&#123;...&#125;              #定义URL</span><br><span class="line">    	举例：@&#123;/order/process(execId=$&#123;execId&#125;,execType=&apos;FAST&apos;)&#125;</span><br><span class="line">    	</span><br><span class="line">    Fragment Expressions: ~&#123;...&#125;              #片段引用表达式</span><br><span class="line">	    举例：&lt;div th:insert=&quot;~&#123;commons :: main&#125;&quot;&gt;...&lt;/div&gt;</span><br><span class="line">		</span><br><span class="line">Literals:  （字面量）</span><br><span class="line">    Text literals: &apos;one text&apos;, &apos;Another one!&apos;,…</span><br><span class="line">    Number literals: 0, 34, 3.0, 12.3,…</span><br><span class="line">    Boolean literals: true, false</span><br><span class="line">    Null literal: null</span><br><span class="line">    Literal tokens: one, sometext, main,…</span><br><span class="line"></span><br><span class="line">Text operations:    （文本操作）</span><br><span class="line">    String concatenation: +</span><br><span class="line">    Literal substitutions: |The name is $&#123;name&#125;|</span><br><span class="line"></span><br><span class="line">Arithmetic operations: (数学运算)</span><br><span class="line">    Binary operators: +, -, *, /, %</span><br><span class="line">    Minus sign (unary operator): -</span><br><span class="line"></span><br><span class="line">Boolean operations:  （布尔运算）</span><br><span class="line">    Binary operators: and, or</span><br><span class="line">    Boolean negation (unary operator): !, not</span><br><span class="line"></span><br><span class="line">Comparisons and equality:  （比较运算）</span><br><span class="line">    Comparators: &gt;, &lt;, &gt;=, &lt;= (gt, lt, ge, le)</span><br><span class="line">    Equality operators: ==, != (eq, ne)</span><br><span class="line"></span><br><span class="line">Conditional operators:	（条件运算）</span><br><span class="line">    If-then: (if) ? (then)</span><br><span class="line">    If-then-else: (if) ? (then) : (else)</span><br><span class="line">    Default: (value) ?: (defaultvalue)</span><br><span class="line"></span><br><span class="line">Special tokens:	</span><br><span class="line">	No-Operation: _</span><br></pre></td></tr></table></figure>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/05/04/spring-boot-eight/" data-toggle="tooltip" data-placement="top"
+                           title="Spring Boot小记(8)">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本概念"><span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#模板引擎"><span class="toc-text">模板引擎</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#Spring Boot"
+                           title="Spring Boot">Spring Boot</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/WavyPeng">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; WavyPeng 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://wavypeng.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-118054505-1';
+    var _gaDomain = 'auto';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '81b7347f8ffef0f2709479c2038df00d';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/img/avatar1.png">
+</body>
+
+</html>
