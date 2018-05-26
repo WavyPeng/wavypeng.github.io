@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Keep it Simple, Stupid">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/img/favicon.png">
+    <link rel="alternate" type="application/atom+xml" title="WavyPeng" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        数据结构小记｜Wavy&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://wavypeng.github.io/2018/05/04/data-structure-three/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    WavyPeng
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/My-Works/">My Works</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//p7mo7b110.bkt.clouddn.com/image/header/data-structure-header.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('//p7mo7b110.bkt.clouddn.com/image/header/data-structure-header.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>数据结构小记</h1>
+                    
+                    <h2 class="subheading">二分搜索</h2>
+                    
+                    <span class="meta">
+                         作者 Wavy Peng
+                        <span>
+                          日期 2018-05-04
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#数据结构"
+                           title="数据结构">数据结构</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            数据结构小记
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>【声明】 图源：<a href="https://www.nowcoder.com/study/vod/1/6/1" target="_blank" rel="noopener">牛客网</a></p>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><ul>
+<li>在有序序列中查找一个数，时间复杂度O(logN)（经典场景）<ul>
+<li>给定有序数组arr，判断m是否存在arr中</li>
+</ul>
+</li>
+<li>并不一定非要在有序序列中才能得到应用</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/06/6_1_1.gif" alt=""></p>
+<h3 id="考察点"><a href="#考察点" class="headerlink" title="考察点"></a>考察点</h3><ul>
+<li>边界条件（处理不当会发生死循环、漏掉某个数的情况），需要仔细设计对<strong>中间划分点</strong>的逻辑判断以及设计<strong>循环的终止条件</strong></li>
+<li>给定处理或查找的对象不同（数组有无重复元素）</li>
+<li>判断条件不同</li>
+<li>要求返回的内容不同</li>
+<li>有序循环数组中进行二分搜索<ul>
+<li>有序循环数组：有序数组左边任意长度的部分拿到右边去，右边部分拿到左边来形成的数组</li>
+</ul>
+</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/06/6_1_2.gif" alt=""></p>
+<h3 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h3><ul>
+<li>$mid=(left+right)/2$，虽然是常见写法，但要注意当<code>left</code>和<code>right</code>下标值过大时，可能会导致溢出。因此更<strong>安全的写法</strong>应该是$mid=left+(right-left)/2$。</li>
+</ul>
+<h3 id="经典案例"><a href="#经典案例" class="headerlink" title="经典案例"></a>经典案例</h3><h4 id="案例一"><a href="#案例一" class="headerlink" title="案例一"></a>案例一</h4><h5 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p><strong>求局部最小值</strong></p>
+</blockquote>
+<blockquote>
+<p>给定一个无序数组arr，已知<strong>任意相邻的两个元素，值都不重复</strong>。请返回任意一个局部最小的位置。</p>
+<p>所谓局部最小的位置是指，如果arr[0]&lt;arr[1]，那么位置0就是一个局部最小的位置。如果arr[N-1]（也就是arr最右边的数）小于arr[N-2]，那么位置N-1也是局部最小的位置。如果位置i既不是最左位置也不是最右位置，那么只要满足arr[i]同时小于它左右两侧的值即（arr[i-1]和arr[i+1]），那么位置i也是一个局部最小的位置。</p>
+</blockquote>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>二分搜索实现，时间复杂度O(logN)</p>
+<ul>
+<li><p>arr为空或长度为0，返回-1，表示局部最小位置不存在</p>
+</li>
+<li><p>如果arr长度为1，返回0，因为此时0是局部最小位置</p>
+</li>
+<li><p>如果arr长度大于1，先检测两边的位置：</p>
+<ul>
+<li>如果arr[0]&lt;arr[1]，直接返回0</li>
+<li>如果arr[N-1]&lt;arr[N-2]，直接返回N-1</li>
+<li>如果上述两个条件不满足，则观察arr[mid]的情况：<ul>
+<li>如果arr[mid]同时小于其左右两边的数，则mid就是一个局部最小位置，直接返回mid</li>
+<li>如果arr[mid]小于其右边的数，大于其左边的数，则从mid向左看整体趋势减小，此时mid左侧存在局部最小位置。此时对左边继续进行同样逻辑的二分搜索。</li>
+<li>如果arr[mid]大于其右边的数，小于其左边的数，则从mid向右看整体趋势减小，此时mid右侧存在局部最小位置。此时对右边继续进行同样逻辑的二分搜索。</li>
+<li>如果arr[mid]大于左右两边的数，则任选一边，继续进行同样逻辑的二分搜索。</li>
+</ul>
+</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/06/6_1_3.gif" alt=""></p>
+</li>
+</ul>
+<h5 id="考点"><a href="#考点" class="headerlink" title="考点"></a>考点</h5><p>二分搜索并不一定要在有序的数组上才可进行，只要在查找的过程中能够淘汰一半，就可以使用</p>
+<h5 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getLessIndex</span><span class="params">(<span class="keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = arr.length;</span><br><span class="line">    <span class="keyword">if</span> (len == <span class="number">0</span>) <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> (len == <span class="number">1</span> || arr[<span class="number">0</span>] &lt; arr[<span class="number">1</span>]) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (arr[len-<span class="number">1</span>] &lt; arr[len-<span class="number">2</span>]) <span class="keyword">return</span> len-<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> left=<span class="number">1</span>,right=len-<span class="number">2</span>,mid=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">        mid = left+(right-left)/<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (arr[mid+<span class="number">1</span>] &gt; arr[mid] &amp;&amp; arr[mid-<span class="number">1</span>] &gt; arr[mid]) &#123;</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (arr[mid] &gt; arr[mid-<span class="number">1</span>]) &#123;</span><br><span class="line">            right = mid-<span class="number">1</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (arr[mid] &gt; arr[mid+<span class="number">1</span>]) &#123;</span><br><span class="line">            left = mid+<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="案例二"><a href="#案例二" class="headerlink" title="案例二"></a>案例二</h4><h5 id="题目-1"><a href="#题目-1" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p><strong>元素最左出现</strong></p>
+</blockquote>
+<blockquote>
+<p>给定一个<strong>有序</strong>数组arr，再给定一个整数num，请在arr中找到num这个数出现的最左边的位置。</p>
+</blockquote>
+<h5 id="分析-1"><a href="#分析-1" class="headerlink" title="分析"></a>分析</h5><ul>
+<li>定义一个变量res记录最近一次找到目标值的下标位置。查找方式采用二分查找。</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/06/6_1_4.gif" alt=""></p>
+<h5 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findPos</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> n, <span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(arr == <span class="keyword">null</span> || n&lt;=<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> res = -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> left=<span class="number">0</span>,right=n-<span class="number">1</span>,mid=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(left&lt;=right)&#123;</span><br><span class="line">        mid = left+(right-left)/<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(num==arr[mid])&#123;</span><br><span class="line">            res = mid;</span><br><span class="line">            right = mid-<span class="number">1</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(num&gt;arr[mid])&#123;</span><br><span class="line">            left=mid+<span class="number">1</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            right=mid-<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="案例三"><a href="#案例三" class="headerlink" title="案例三"></a>案例三</h4><h5 id="题目-2"><a href="#题目-2" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p><strong>循环有序数组最小值</strong></p>
+</blockquote>
+<blockquote>
+<p>给定一个有序循环数组arr，返回arr中的最小值。有序循环数组是指，有序数组左边任意长度的部分放到右边去，右边的部分拿到左边来。比如数组[1,2,3,3,4]，是有序循环数组，[4,1,2,3,3]也是。</p>
+</blockquote>
+<h5 id="分析-2"><a href="#分析-2" class="headerlink" title="分析"></a>分析</h5><ul>
+<li>注意：当arr[L]=arr[M]=arr[R]时，只能通过遍历的方式进行查找。</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/06/6_1_5.gif" alt=""></p>
+<h5 id="实现-2"><a href="#实现-2" class="headerlink" title="实现"></a>实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getMin</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(arr==<span class="keyword">null</span> || n&lt;=<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>,right = n-<span class="number">1</span>,mid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(left&lt;right)&#123;</span><br><span class="line">        <span class="comment">//当数组只有两个值的时候</span></span><br><span class="line">        <span class="keyword">if</span>(right-left==<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="comment">//左边小于右边，left到right范围内是有序的</span></span><br><span class="line">        <span class="keyword">if</span>(arr[left]&lt;arr[right])</span><br><span class="line">            <span class="keyword">return</span> arr[left];</span><br><span class="line">        mid=left+(right-left)/<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(arr[left]&gt;arr[mid])&#123;<span class="comment">//证明最小值在Left和mid之间</span></span><br><span class="line">            right = mid;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(arr[right]&lt;arr[mid])&#123;<span class="comment">//证明最小值在mid和right之间</span></span><br><span class="line">            left=mid;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//当出现等值的情况</span></span><br><span class="line">        <span class="keyword">while</span> (left&lt;right)&#123;</span><br><span class="line">            <span class="keyword">if</span> (arr[left]==arr[mid])&#123;</span><br><span class="line">                left++;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span> (arr[left]&lt;arr[mid])&#123;</span><br><span class="line">                <span class="keyword">return</span> arr[left];</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                right=mid;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Math.min(arr[left],arr[right]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="案例四"><a href="#案例四" class="headerlink" title="案例四"></a>案例四</h4><h5 id="题目-3"><a href="#题目-3" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p><strong>最左原位</strong></p>
+</blockquote>
+<blockquote>
+<p>给定一个有序数组arr，其中不含有重复元素，请找到满足arr[i]==i条件的<strong>最左</strong>的位置，如果所有位置上的数都不满足条件，返回-1.</p>
+</blockquote>
+<h5 id="分析-3"><a href="#分析-3" class="headerlink" title="分析"></a>分析</h5><ul>
+<li>定义res，记录最后一次发生arr[i]==i的位置</li>
+<li>如果arr[0]&gt;N-1，则arr[0]~arr[N-1]上的位置均大于N-1，返回-1</li>
+<li>如果arr[N-1]&lt;0，则arr[0]~arr[N-1]上的位置均小于0，返回-1</li>
+<li>考虑位置M，如果arr[M]&gt;M，在0~M-1的范围上继续二分查找；如果arr[M]&lt;M，在M+1~N的范围上继续二分查找；如果arr[M]==M，用res记录当前的M值，之后再从0~M-1的范围继续二分搜索</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/06/6_1_6.gif" alt=""></p>
+<h5 id="实现-3"><a href="#实现-3" class="headerlink" title="实现"></a>实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findPos</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// write code here</span></span><br><span class="line">    <span class="keyword">if</span>(arr == <span class="keyword">null</span> || n&lt;=<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> res = -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(arr[<span class="number">0</span>]&gt;n-<span class="number">1</span> || arr[n-<span class="number">1</span>]&lt;<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>,right = n-<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(left&lt;=right)&#123;  <span class="comment">// 二分查找目标值</span></span><br><span class="line">        mid = left+(right-left)/<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(arr[mid]==mid)&#123;</span><br><span class="line">            res = mid;</span><br><span class="line">            right = mid-<span class="number">1</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(arr[mid]&gt;mid)&#123; <span class="comment">// 0~mid-1</span></span><br><span class="line">            right = mid-<span class="number">1</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;  <span class="comment">// mid+1~n-1</span></span><br><span class="line">            left = mid+<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="案例五"><a href="#案例五" class="headerlink" title="案例五"></a>案例五</h4><h5 id="题目-4"><a href="#题目-4" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p><strong>完全二叉树计数</strong></p>
+</blockquote>
+<blockquote>
+<p>给定一棵完全二叉树的头节点head，返回这棵树的节点个数，如果完全二叉树的节点数为N，请实现时间复杂度低于O(N)的解法。</p>
+</blockquote>
+<h5 id="分析-4"><a href="#分析-4" class="headerlink" title="分析"></a>分析</h5><ul>
+<li>普通遍历方式，时间复杂度O(N)。</li>
+<li>最优解，时间复杂度O(logH^2)，H是二叉树的高度。实质上是利用二分来确定右子树的最左节点的位置<ul>
+<li>首先找到二叉树最左的节点，统计完全二叉树的高度。</li>
+<li>找到二叉树右子树的最左节点，如果头节点<strong>右子树的最左节点</strong>能到达最后一层，说明头节点左子树一定是一棵<strong>满二叉树</strong>，可以根据公式计算满二叉树的节点个数，再加上头节点。之后利用递归的方式求解右子树的节点个数。</li>
+<li>如果头节点右子树的最左节点不能到达最后一层，说明头节点的右子树是一棵满二叉树，不过比左子树少一层，可以根据公式计算满二叉树的节点个数，再加上头节点。之后利用递归的方式求解左子树的节点个数。</li>
+</ul>
+</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/06/6_1_7.gif" alt=""></p>
+<h5 id="实现-4"><a href="#实现-4" class="headerlink" title="实现"></a>实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TreeNode</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> val = <span class="number">0</span>;</span><br><span class="line">    TreeNode left = <span class="keyword">null</span>;</span><br><span class="line">    TreeNode right = <span class="keyword">null</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TreeNode</span><span class="params">(<span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.val = val;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CountNodes</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">count</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// write code here</span></span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> left = getDepth(root.left);<span class="comment">//左子树高度</span></span><br><span class="line">        <span class="keyword">int</span> right = getDepth(root.right);<span class="comment">//右子树高度</span></span><br><span class="line">        <span class="keyword">if</span>(left == right)&#123;</span><br><span class="line">            res += (<span class="keyword">int</span>) (Math.pow(<span class="number">2</span>, left)-<span class="number">1</span> +<span class="number">1</span>);<span class="comment">//计算左子树加根</span></span><br><span class="line">            res += count(root.right);<span class="comment">//计算右子树</span></span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(left &gt; right)&#123;</span><br><span class="line">            res += (<span class="keyword">int</span>) (Math.pow(<span class="number">2</span>, right)-<span class="number">1</span> +<span class="number">1</span>);<span class="comment">//(满树)计算右子树加根</span></span><br><span class="line">            res += count(root.left);<span class="comment">//计算左子树</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    <span class="comment">// 获取树的深度</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getDepth</span><span class="params">(TreeNode root)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> depth = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(root!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            depth++;</span><br><span class="line">            root = root.left;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> depth;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="案例六"><a href="#案例六" class="headerlink" title="案例六"></a>案例六</h4><h5 id="题目-5"><a href="#题目-5" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p><strong>快速N次方</strong></p>
+</blockquote>
+<blockquote>
+<p>如何更快的求一个整数k的N次方。如果两个整数相乘并得到结果的时间复杂度为O(1)，得到整数k的N次方的过程请实现时间复杂度为O(logN)的方法。</p>
+</blockquote>
+<h5 id="分析-5"><a href="#分析-5" class="headerlink" title="分析"></a>分析</h5><ul>
+<li>普通方法，时间复杂度O(N)</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/06/6_1_8.gif" alt=""></p>
+<ul>
+<li>二分查找，时间复杂度O(logN)</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/06/6_1_9.gif" alt=""></p>
+<h5 id="实现-5"><a href="#实现-5" class="headerlink" title="实现"></a>实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getPower</span><span class="params">(<span class="keyword">int</span> k, <span class="keyword">int</span> N)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(N==<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">long</span> sum = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">long</span> tmp = k;</span><br><span class="line">    <span class="keyword">int</span> mod = <span class="number">1000000007</span>;</span><br><span class="line">    <span class="keyword">while</span>(N!=<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>((N&amp;<span class="number">1</span>)!=<span class="number">0</span>) <span class="comment">// 判断奇数</span></span><br><span class="line">            sum=(sum*tmp)%mod;</span><br><span class="line">        tmp = (tmp*tmp)%mod;</span><br><span class="line">        sum = sum%mod;</span><br><span class="line">        N=N&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">int</span>)sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h5><blockquote>
+<p>为什么要对<code>1000000007</code>取模？ </p>
+</blockquote>
+<p>其实不止1e9+7，还有1e9+9和998244353。这三个数都是一个质数，同时小于$2^{30}$</p>
+<ul>
+<li>所有模过之后的数在加法操作在int范围内不会溢出，即$a,b&lt;2^{30}, a+b&lt;2^{31}$</li>
+<li>在乘法操作后在long long范围内不会溢出，即$ab&lt;2^{60}$</li>
+<li>对于$[1,p)$中的整数，可进行mod P乘法群意义下的除法，即可以使用扩展欧几里得算法求得$gcd(x,P)=ax+bP+1$中的a。</li>
+</ul>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018/05/04/data-structure-one/" data-toggle="tooltip" data-placement="top"
+                           title="数据结构小记">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/05/04/spring-boot-one/" data-toggle="tooltip" data-placement="top"
+                           title="Spring Boot小记(1)">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#应用场景"><span class="toc-text">应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#考察点"><span class="toc-text">考察点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意点"><span class="toc-text">注意点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#经典案例"><span class="toc-text">经典案例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#案例一"><span class="toc-text">案例一</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#考点"><span class="toc-text">考点</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#实现"><span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例二"><span class="toc-text">案例二</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-1"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-1"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#实现-1"><span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例三"><span class="toc-text">案例三</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-2"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-2"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#实现-2"><span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例四"><span class="toc-text">案例四</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-3"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-3"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#实现-3"><span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例五"><span class="toc-text">案例五</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-4"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-4"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#实现-4"><span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例六"><span class="toc-text">案例六</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-5"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-5"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#实现-5"><span class="toc-text">实现</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#扩展"><span class="toc-text">扩展</span></a></li></ol></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#数据结构"
+                           title="数据结构">数据结构</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/WavyPeng">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; WavyPeng 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://wavypeng.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-118054505-1';
+    var _gaDomain = 'auto';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '81b7347f8ffef0f2709479c2038df00d';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/img/avatar1.png">
+</body>
+
+</html>

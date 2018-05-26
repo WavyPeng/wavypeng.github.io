@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Keep it Simple, Stupid">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/img/favicon.png">
+    <link rel="alternate" type="application/atom+xml" title="WavyPeng" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        数据结构小记｜Wavy&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://wavypeng.github.io/2018/05/04/data-structure-one/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    WavyPeng
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/My-Works/">My Works</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//p7mo7b110.bkt.clouddn.com/image/header/data-structure-header.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('//p7mo7b110.bkt.clouddn.com/image/header/data-structure-header.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>数据结构小记</h1>
+                    
+                    <h2 class="subheading">链表</h2>
+                    
+                    <span class="meta">
+                         作者 Wavy Peng
+                        <span>
+                          日期 2018-05-04
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#数据结构"
+                           title="数据结构">数据结构</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            数据结构小记
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>【声明】 图源：<a href="https://www.nowcoder.com/study/vod/1/5/1" target="_blank" rel="noopener">牛客网</a></p>
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><ul>
+<li>链表和数组都是一种线性结构<ul>
+<li>数组是一段连续的存储空间</li>
+<li>链表空间不一定保证连续，为临时分配的</li>
+</ul>
+</li>
+<li>链表的分类<ul>
+<li>按连接方向分类<ul>
+<li>单链表</li>
+<li>双链表</li>
+</ul>
+</li>
+<li>按有环和无环分类<ul>
+<li>普通链表</li>
+<li>循环链表（首尾相接）</li>
+<li><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/05/1.PNG" alt=""></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>链表问题代码实现的关键点<ul>
+<li>链表调整函数的返回值类型，根据要求往往是节点类型</li>
+<li>处理链表过程中，先采用画图的方式理清逻辑</li>
+<li>链表问题对于<strong>边界</strong>条件讨论要求严格（头节点、尾节点、空节点）</li>
+</ul>
+</li>
+<li>链表插入和删除的注意事项<ul>
+<li>特殊处理链表<strong>为空</strong>，或者链表<strong>长度为1</strong>的情况</li>
+<li>注意插入操作的调整过程（找到插入位置的前一个节点和后一个节点）<ul>
+<li><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/05/insert.gif" alt=""></li>
+</ul>
+</li>
+<li>注意删除操作的调整过程<ul>
+<li><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/05/delete.gif" alt=""></li>
+</ul>
+</li>
+<li>注意在删除或插入节点时，<strong>头尾节点</strong>及<strong>空节点</strong>需要特殊考虑<ul>
+<li>双链表的插入与删除和单链表类似，但是需要额外考虑previous指针的指向</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>单链表翻转操作的注意事项<ul>
+<li>当链表为空或者长度为1时，特殊处理<ul>
+<li><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/05/reverse.gif" alt=""></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="经典案例"><a href="#经典案例" class="headerlink" title="经典案例"></a>经典案例</h3><h4 id="案例一"><a href="#案例一" class="headerlink" title="案例一"></a>案例一</h4><h5 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p><strong>环形链表插值</strong></p>
+</blockquote>
+<blockquote>
+<p>给定一个整数num，如何在节点值有序的环形链表中插入一个节点值为num的节点，并且保证这个环形单链表依然有序。</p>
+</blockquote>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>时间复杂度O(n)，空间复杂度O(1)</p>
+<ul>
+<li>首先生成节点值为num的新节点</li>
+<li>如果原链表为空，让node自己形成环形链表，返回node即可<ul>
+<li><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/05/node.gif" alt=""></li>
+</ul>
+</li>
+<li>如果链表不为空，令变量previous(p)等于头节点(head)，变量current(c)等于第二个节点，然后令p和c同步移动下去：<ul>
+<li>如果p.val&lt;=node.val并且c.val&gt;=node.val，则将node插入到p和c之间，返回head即可<ul>
+<li><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/05/node1.gif" alt=""></li>
+</ul>
+</li>
+<li>举例演示<ul>
+<li><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/05/node2.gif" alt=""></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>如果p和c转一圈都没有发现应该插入的位置，此时node应该插入头节点的前面，情况如下<ul>
+<li>node节点的值比链表中的每个节点的值都大，此时返回head</li>
+<li>node节点的值比链表中的每个节点的值都小，此时应返回node作为环形链表的新头部（保证有序）<ul>
+<li><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/05/node3.gif" alt=""></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 有一个整数val，如何在节点值有序的环形链表中插入一个节点值为val的节点，并且保证这个环形单链表依然有序。</span></span><br><span class="line"><span class="comment"> * 给定链表的信息，及元素的值A及对应的nxt指向的元素编号同时给定val，请构造出这个环形链表，并插入该值。</span></span><br><span class="line"><span class="comment"> * 测试样例：</span></span><br><span class="line"><span class="comment"> * [1,3,4,5,7],[1,2,3,4,0],2</span></span><br><span class="line"><span class="comment"> * 返回：&#123;1,2,3,4,5,7&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    ListNode next=<span class="keyword">null</span>;</span><br><span class="line">    ListNode(<span class="keyword">int</span> val)&#123;</span><br><span class="line">        <span class="keyword">this</span>.val = val;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InsertValue</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">insert</span><span class="params">(<span class="keyword">int</span>[] A, <span class="keyword">int</span>[] nxt, <span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(A == <span class="keyword">null</span>)&#123;</span><br><span class="line">            ListNode node = <span class="keyword">new</span> ListNode(val);</span><br><span class="line">            <span class="keyword">return</span> node;</span><br><span class="line">        &#125;</span><br><span class="line">        ListNode head = <span class="keyword">new</span> ListNode(A[<span class="number">0</span>]); <span class="comment">// 头节点</span></span><br><span class="line">        ListNode tail = head;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;A.length-<span class="number">1</span>;i++)&#123;</span><br><span class="line">            tail.next = <span class="keyword">new</span> ListNode(A[nxt[i]]);</span><br><span class="line">            tail = tail.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        show(head);</span><br><span class="line"></span><br><span class="line">        ListNode node = <span class="keyword">new</span> ListNode(val);</span><br><span class="line">        <span class="comment">// 如果val比头节点的值还小，则将其插入到头节点之前并作为头节点返回</span></span><br><span class="line">        <span class="keyword">if</span>(val&lt;head.val)&#123;</span><br><span class="line">            node.next = head;</span><br><span class="line">            tail.next = node;</span><br><span class="line">            <span class="keyword">return</span> node;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ListNode pre = head;</span><br><span class="line">        ListNode cur = head.next;</span><br><span class="line">        <span class="keyword">while</span>(cur!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(val&gt;=pre.val &amp;&amp; val&lt;=cur.val)&#123;</span><br><span class="line">                node.next = cur;</span><br><span class="line">                pre.next = node;</span><br><span class="line">                <span class="keyword">return</span> head;</span><br><span class="line">            &#125;</span><br><span class="line">            pre = cur;</span><br><span class="line">            cur = cur.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 如果node是最大的</span></span><br><span class="line">        node.next = <span class="keyword">null</span>;</span><br><span class="line">        pre.next = node;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 输出链表</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">(ListNode head)</span></span>&#123;</span><br><span class="line">        ListNode p = head;</span><br><span class="line">        <span class="keyword">while</span>(p!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            System.out.print(p.val+<span class="string">"-&gt;"</span>);</span><br><span class="line">            p = p.next;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        InsertValue obj = <span class="keyword">new</span> InsertValue();</span><br><span class="line">        <span class="keyword">int</span>[] A = &#123;<span class="number">1</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">7</span>&#125;;</span><br><span class="line">        <span class="keyword">int</span>[] nxt = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">0</span>&#125;;</span><br><span class="line">        <span class="keyword">int</span> val = <span class="number">4</span>;</span><br><span class="line">        ListNode head = obj.insert(A,nxt,val);</span><br><span class="line">        obj.show(head);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="案例二"><a href="#案例二" class="headerlink" title="案例二"></a>案例二</h4><h5 id="题目-1"><a href="#题目-1" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p><strong>访问单个节点的删除</strong></p>
+</blockquote>
+<blockquote>
+<p>给定一个链表中的节点node，但不给定整个链表的头节点。如何在链表中删除node？请实现这个函数，要求时间复杂度为O(1)。</p>
+</blockquote>
+<h5 id="分析-1"><a href="#分析-1" class="headerlink" title="分析"></a>分析</h5><h6 id="常见解法"><a href="#常见解法" class="headerlink" title="常见解法"></a>常见解法</h6><p>将待删除节点的下一个节点的值拷贝给当前节点，之后删除下一个节点。</p>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/05/1.gif" alt=""></p>
+<h6 id="存在问题"><a href="#存在问题" class="headerlink" title="存在问题"></a>存在问题</h6><p>无法删除最后一个节点。因为没有下一个节点的值可以拷贝给当前节点。也不能将待删除节点在内存中的区域设置成null，因为null在系统中是一个特定的区域如果想让待删除节点的上一个节点指向null，必须找到该节点才行。因此这种删除方式并不是删除了该删除的节点，而是进行了值的拷贝。</p>
+<p>在实际生产中，这种方法并不可行，比如：</p>
+<ul>
+<li>节点结构复杂且拷贝操作受限时</li>
+<li>在工程上会影响外部依赖</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/05/2.gif" alt=""></p>
+<h5 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 实现一个算法，删除单向链表中间的某个结点，假定你只能访问该结点。</span></span><br><span class="line"><span class="comment"> * 给定待删除的头节点和要删除的数字，请执行删除操作，返回删除后的头结点。链表中没有重复数字</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Remove</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 删除指定节点</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">removeNode</span><span class="params">(ListNode pNode, <span class="keyword">int</span> delVal)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 定义辅助头节点</span></span><br><span class="line">        ListNode dummy = <span class="keyword">new</span> ListNode(-<span class="number">1</span>);</span><br><span class="line">        dummy.next = pNode;</span><br><span class="line">        ListNode pre = dummy;</span><br><span class="line">        ListNode cur = dummy.next;</span><br><span class="line">        <span class="keyword">while</span>(cur!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(cur.val == delVal)&#123;</span><br><span class="line">                pre.next = cur.next;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            pre = cur;</span><br><span class="line">            cur = cur.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dummy.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="案例三"><a href="#案例三" class="headerlink" title="案例三"></a>案例三</h4><h5 id="题目-2"><a href="#题目-2" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p><strong>链表的分化</strong></p>
+</blockquote>
+<blockquote>
+<p>给定一个链表的头节点head，再给定一个数num，请把链表调节成节点值小于num的节点都放在链表的左边，值等于num的节点都放在链表的中间，值大于num的节点，都放在链表的右边。</p>
+</blockquote>
+<h5 id="分析-2"><a href="#分析-2" class="headerlink" title="分析"></a>分析</h5><p>简单做法：（使用了额外的结构）</p>
+<ul>
+<li>将链表的所有节点放入到数组中，然后将数组进行快排划分的调整过程。（类似荷兰国旗问题）</li>
+<li>然后将数组中的节点依次重新串连</li>
+</ul>
+<p>最优解法：</p>
+<ul>
+<li>在遍历链表的过程中，将链表分成小于num的链表，等于num的链表和大于num的链表</li>
+<li>最后再将这三个链表整体的连接起来</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/05/3.gif" alt=""></p>
+<h5 id="实现-2"><a href="#实现-2" class="headerlink" title="实现"></a>实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">listDivide</span><span class="params">(ListNode head, <span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">    ListNode smallHead = <span class="keyword">null</span>; <span class="comment">// &lt;=</span></span><br><span class="line">    ListNode smallTail = <span class="keyword">null</span>;</span><br><span class="line">    ListNode bigHead = <span class="keyword">null</span>;   <span class="comment">// &gt;</span></span><br><span class="line">    ListNode bigTail = <span class="keyword">null</span>;</span><br><span class="line">    ListNode next = head;</span><br><span class="line">    <span class="keyword">while</span>(head!=<span class="keyword">null</span>)&#123;</span><br><span class="line">        next = head.next;</span><br><span class="line">        head.next = <span class="keyword">null</span>;  <span class="comment">// 断开连接</span></span><br><span class="line">        <span class="keyword">if</span>(head.val &lt;= val)&#123;</span><br><span class="line">            <span class="keyword">if</span>(smallHead==<span class="keyword">null</span>)&#123;</span><br><span class="line">                smallHead = head;</span><br><span class="line">                smallTail = head;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                smallTail.next = head;</span><br><span class="line">                smallTail = smallTail.next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(bigHead==<span class="keyword">null</span>)&#123;</span><br><span class="line">                bigHead = head;</span><br><span class="line">                bigTail = head;</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                bigTail.next = head;</span><br><span class="line">                bigTail = bigTail.next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        head = next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(smallHead!=<span class="keyword">null</span>)</span><br><span class="line">        smallTail.next = bigHead;</span><br><span class="line">    <span class="keyword">return</span> smallHead==<span class="keyword">null</span>?bigHead:smallHead;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="案例四"><a href="#案例四" class="headerlink" title="案例四"></a>案例四</h4><h5 id="题目-3"><a href="#题目-3" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p><strong>打印两个链表的公共值</strong></p>
+</blockquote>
+<blockquote>
+<p>给定两个<strong>有序</strong>链表的头节点head1和head2，打印两个有序链表的公共部分。</p>
+</blockquote>
+<h5 id="分析-3"><a href="#分析-3" class="headerlink" title="分析"></a>分析</h5><ul>
+<li>如果两个链表有任何一个为空，直接返回即可。</li>
+<li>如果两个链表均不为空，则继续按照下面的步骤进行处理：<ul>
+<li>从两个链表的头节点开始遍历，如果list1当前节点值小于list2当前节点值，则继续遍历list1的下一个节点。</li>
+<li>如果list2的当前节点值小于list1的当前节点值，则继续遍历list2的下一个节点。</li>
+<li>如果两个链表的当前节点值相等，则都打印当前节点值，同时向下一个节点移动。</li>
+<li>list1和list2有一个遍历到null，则整个过程停止。</li>
+</ul>
+</li>
+<li>演示如下<ul>
+<li><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/05/4.gif" alt=""></li>
+</ul>
+</li>
+</ul>
+<h5 id="实现-3"><a href="#实现-3" class="headerlink" title="实现"></a>实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] findCommonParts(ListNode headA, ListNode headB) &#123;</span><br><span class="line">    <span class="keyword">if</span>(headA == <span class="keyword">null</span> || headB == <span class="keyword">null</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    ArrayList&lt;Integer&gt; tmp = <span class="keyword">new</span> ArrayList&lt;Integer&gt;();</span><br><span class="line">    ListNode p = headA;</span><br><span class="line">    ListNode q = headB;</span><br><span class="line">    <span class="keyword">while</span>(p!=<span class="keyword">null</span> &amp;&amp; q!=<span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(p.val == q.val) &#123;</span><br><span class="line">            tmp.add(p.val);</span><br><span class="line">            p = p.next;</span><br><span class="line">            q = q.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(p.val &lt; q.val)</span><br><span class="line">            p = p.next;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            q = q.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span>[] res = <span class="keyword">new</span> <span class="keyword">int</span>[tmp.size()];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;tmp.size();i++)</span><br><span class="line">        res[i] = tmp.get(i);</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="案例五"><a href="#案例五" class="headerlink" title="案例五"></a>案例五</h4><h5 id="题目-4"><a href="#题目-4" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p><strong>链表的K逆序</strong></p>
+</blockquote>
+<blockquote>
+<p>给定一个单链表的头节点head，实现一个调整单链表的函数，使得每K个节点之间逆序，如果最后不够K个节点一组，则不调整最后几个节点。</p>
+</blockquote>
+<blockquote>
+<p>举例：</p>
+<p>1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;6-&gt;7-&gt;8-&gt;null，K=3</p>
+<p>调整后为</p>
+<p>3-&gt;2-&gt;1-&gt;6-&gt;5-&gt;4-&gt;7-&gt;8-&gt;null</p>
+<p>因为K=3，所以每三个节点之间逆序，但其中的7,8不调整，因为只有两个节点不够一组</p>
+</blockquote>
+<h5 id="分析-4"><a href="#分析-4" class="headerlink" title="分析"></a>分析</h5><ul>
+<li>如果链表为空，或长度为1，或K&lt;2，链表不用进行调整</li>
+<li>方法一：时间复杂度O(n)，额外空间复杂度O(k)（利用栈进行处理）<ul>
+<li>元素依次进栈，在栈中凑齐K个元素就依次从栈中弹出，栈中弹出的顺序是原来顺序的逆序，所以这K个元素之间就实现了逆序。</li>
+<li>下一组元素继续按照这个过程处理，直到完成要求。</li>
+<li>实现过程中需要注意的地方：<ul>
+<li>最后节点数不足K个应该如何处理？</li>
+<li>next指针重连如何处理？</li>
+<li>逆序后的每组子链表之间如何连接？</li>
+<li>第一组元素的特殊处理？</li>
+<li>调整后头节点被改变如何处理？</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/05/5.gif" alt=""></p>
+<ul>
+<li><strong>方法二</strong>：时间复杂度O(n)，额外空间复杂度O(1)（省去了栈的辅助）<ul>
+<li>记录下每组的第一个节点</li>
+<li>往下遍历到K个节点时，就从第一个节点开始做逆序调整</li>
+<li>把每组逆序之后的头节点和上一组已经调整好的尾节点相连</li>
+</ul>
+</li>
+</ul>
+<h5 id="实现-4"><a href="#实现-4" class="headerlink" title="实现"></a>实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">inverse</span><span class="params">(ListNode head, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(head == <span class="keyword">null</span> || k&lt;<span class="number">2</span>)</span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    ListNode cur = head;</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(cur!=<span class="keyword">null</span> &amp;&amp; count&lt;k)&#123;</span><br><span class="line">        cur = cur.next;</span><br><span class="line">        count++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(count==k)&#123;</span><br><span class="line">        <span class="comment">// 下一组翻转内容头节点</span></span><br><span class="line">        cur = inverse(cur,k);</span><br><span class="line">        <span class="keyword">while</span>(count--&gt;<span class="number">0</span>)&#123;</span><br><span class="line">            ListNode tmp = head.next; <span class="comment">// 翻转</span></span><br><span class="line">            head.next = cur;</span><br><span class="line">            cur = head;  <span class="comment">// 向下遍历</span></span><br><span class="line">            head = tmp;</span><br><span class="line">        &#125;</span><br><span class="line">        head = cur; <span class="comment">// 翻转后的头节点</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> head;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="案例六"><a href="#案例六" class="headerlink" title="案例六"></a>案例六</h4><h5 id="题目-5"><a href="#题目-5" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p><strong>链表指定值清除</strong></p>
+</blockquote>
+<blockquote>
+<p>给定一个单链表的头节点head，链表中每个节点保存一个整数，再给定一个值val，把所有等于val的节点删掉。</p>
+</blockquote>
+<h5 id="分析-5"><a href="#分析-5" class="headerlink" title="分析"></a>分析</h5><ul>
+<li>把整个过程看做一个构造链表的过程，假设之前构造的链表头是head，尾是tail。</li>
+<li>如果当前节点now.val == val，就直接抛弃该节点；否则就将该节点接到之前链表的末尾。接到末尾需要改变末尾的next指针，让其指向now节点，并将now节点设置成新的尾节点。</li>
+<li>特殊情况<ul>
+<li>最初将head和tail等于null，所以第一个接上的节点既是head也是tail</li>
+<li>接入第一个节点，tail是没有next指针的</li>
+</ul>
+</li>
+<li>演示如下</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/05/6.gif" alt=""></p>
+<h5 id="实现-5"><a href="#实现-5" class="headerlink" title="实现"></a>实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">clear</span><span class="params">(ListNode head, <span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">    ListNode nHead = <span class="keyword">null</span>;  <span class="comment">// 新链表</span></span><br><span class="line">    ListNode nTail = <span class="keyword">null</span>;</span><br><span class="line">    ListNode cur = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">while</span>(head!=<span class="keyword">null</span>)&#123;</span><br><span class="line">        cur = head.next;</span><br><span class="line">        head.next = <span class="keyword">null</span>;   <span class="comment">// 与原链表断开</span></span><br><span class="line">        <span class="keyword">if</span>(head.val!=val)&#123;</span><br><span class="line">            <span class="keyword">if</span>(nHead==<span class="keyword">null</span>)&#123; <span class="comment">// 新链表还没节点</span></span><br><span class="line">                nHead = head;</span><br><span class="line">                nTail = head;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                nTail.next = head;</span><br><span class="line">                nTail = nTail.next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        head = cur;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nHead;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="案例七"><a href="#案例七" class="headerlink" title="案例七"></a>案例七</h4><h5 id="题目-6"><a href="#题目-6" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p><strong>链表的回文结构</strong></p>
+</blockquote>
+<blockquote>
+<p>判断一个链表是否是回文结构</p>
+<p>例如：</p>
+<p>1-&gt;2-&gt;3-&gt;2-&gt;1，是回文结构，返回true</p>
+<p>1-&gt;2-&gt;3-&gt;1，不是回文结构，返回false</p>
+</blockquote>
+<h5 id="分析-6"><a href="#分析-6" class="headerlink" title="分析"></a>分析</h5><p>方法一：时间复杂度O(n)，使用了n的额外空间</p>
+<ul>
+<li>申请一个栈结构，在遍历链表的过程中将元素依次入栈</li>
+<li>此时栈顶到栈底的元素顺序就是链表中元素顺序的逆序</li>
+<li>再次遍历链表，同时栈向外弹出节点。比对遍历节点和弹出节点的值是否一样，如果每一步节点都相等，说明链表是回文结构。否则不是回文结构。</li>
+<li>演示过程</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/05/7.gif" alt=""></p>
+<p>方法二：时间复杂度O(n)，使用了n/2的额外空间（<strong>快慢指针</strong>，折半比较）</p>
+<ul>
+<li>申请一个栈结构，在遍历链表的过程中将元素依次入栈，与方法一不同的是这次是用<strong>快慢两个指针</strong>同时遍历，快指针一次两步，慢指针一次一步。</li>
+<li>慢指针遍历时将指针压入栈中。当快指针走完时，慢指针会来到链表的中间位置。</li>
+<li>栈顶到栈底的顺序是链表左部分的逆序。</li>
+<li><strong>此时链表长度如果为奇数，就不把中间的节点压入栈中</strong></li>
+<li>接下来慢指针继续遍历，同时栈弹出节点。对比两个值是否相等，如果每一步节点都相等，说明链表是回文结构。否则不是回文结构。</li>
+<li>演示过程</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/05/8.gif" alt=""></p>
+<p>方法三：时间复杂度O(n)，使用的额外空间复杂度O(1)（最优解）</p>
+<ul>
+<li>找到链表的中间节点（<strong>快慢指针</strong>）</li>
+<li>将链表的后半部分做逆序调整</li>
+<li>从链表的两端开始，依次对比节点值是否一样。如果对比到中间位置是一样的，则说明链表是回文结构，否则不是。</li>
+<li>无论是否是回文结构，返回之前，需要把链表的结构调整回原样，之后才可以返回结果。</li>
+<li>演示过程</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/05/9.gif" alt=""></p>
+<h5 id="实现-6"><a href="#实现-6" class="headerlink" title="实现"></a>实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPalindrome</span><span class="params">(ListNode pHead)</span> </span>&#123;</span><br><span class="line">    ListNode slow = pHead;</span><br><span class="line">    ListNode fast = pHead;</span><br><span class="line">    <span class="comment">// 找到链表的中点</span></span><br><span class="line">    <span class="keyword">while</span>(fast!=<span class="keyword">null</span> &amp;&amp; fast.next!=<span class="keyword">null</span>)&#123;</span><br><span class="line">        slow = slow.next;</span><br><span class="line">        fast = fast.next.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 翻转链表后半部分</span></span><br><span class="line">    ListNode p = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">while</span>(slow!=<span class="keyword">null</span>)&#123;</span><br><span class="line">        ListNode tmp = slow.next;</span><br><span class="line">        slow.next = p;</span><br><span class="line">        p = slow;</span><br><span class="line">        slow = tmp;</span><br><span class="line">    &#125;</span><br><span class="line">    ListNode cur = pHead;</span><br><span class="line">    <span class="comment">// 判断是否回文</span></span><br><span class="line">    <span class="keyword">while</span>(p!=<span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(p.val == cur.val)&#123;</span><br><span class="line">            p = p.next;</span><br><span class="line">            cur = cur.next;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="案例八"><a href="#案例八" class="headerlink" title="案例八"></a>案例八</h4><h5 id="题目-7"><a href="#题目-7" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p><strong>复杂链表的复制</strong></p>
+</blockquote>
+<blockquote>
+<p>一个链表结构中，每个节点不仅包含有一条指向下一个节点的next指针，同时含有一条rand指针，rand指针可能指向任何一个链表中的节点，请复制这种含有rand指针节点的链表。</p>
+</blockquote>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/05/5_10_1.PNG" alt=""></p>
+<h5 id="分析-7"><a href="#分析-7" class="headerlink" title="分析"></a>分析</h5><ul>
+<li><strong>链表长度为</strong>0或者为空，直接返回null。</li>
+<li>遍历链表，拷贝当前节点，将拷贝节点放在当前节点和下一个节点之间。</li>
+<li>再次遍历链表，同时访问当前节点和它的拷贝节点，以1为例，通过1的rand指针可以找到3，那么1’的rand指针可以成功的找到3的拷贝节点3’。</li>
+<li>其他节点操作同步骤三。</li>
+<li>将原链表和拷贝链表分离即可。返回拷贝链表，同时原链表也未发生改变。</li>
+<li>过程演示</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/05/5_10_2.gif" alt=""></p>
+<h5 id="实现-7"><a href="#实现-7" class="headerlink" title="实现"></a>实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RandomListNode</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    RandomListNode next = <span class="keyword">null</span>;</span><br><span class="line">    RandomListNode random = <span class="keyword">null</span>;</span><br><span class="line">    RandomListNode(<span class="keyword">int</span> val)&#123;</span><br><span class="line">        <span class="keyword">this</span>.val = val;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> RandomListNode <span class="title">Clone</span><span class="params">(RandomListNode pHead)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(pHead == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> pHead;</span><br><span class="line">        <span class="comment">// 复制链表的每个节点</span></span><br><span class="line">        RandomListNode current = pHead;</span><br><span class="line">        RandomListNode pNext = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">while</span>(current!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            pNext = current.next;</span><br><span class="line">            current.next = <span class="keyword">new</span> RandomListNode(current.val);</span><br><span class="line">            current.next.next = pNext;</span><br><span class="line">            current = pNext;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 遍历链表复制rand指针</span></span><br><span class="line">        current = pHead;</span><br><span class="line">        RandomListNode copyCur = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">while</span>(current!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            pNext = current.next.next;</span><br><span class="line">            copyCur = current.next;</span><br><span class="line">            copyCur.random = current.random != <span class="keyword">null</span>?current.random.next:<span class="keyword">null</span>;</span><br><span class="line">            current = pNext;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 将两个链表拆分</span></span><br><span class="line">        RandomListNode copyHead = pHead.next;</span><br><span class="line">        current = pHead;</span><br><span class="line">        <span class="keyword">while</span>(current!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            pNext = current.next.next;</span><br><span class="line">            copyCur = current.next;</span><br><span class="line">            current.next = pNext;</span><br><span class="line">            copyCur.next = pNext != <span class="keyword">null</span>?pNext.next:<span class="keyword">null</span>;</span><br><span class="line">            current = pNext;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> copyHead;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="案例九"><a href="#案例九" class="headerlink" title="案例九"></a>案例九</h4><h5 id="题目-8"><a href="#题目-8" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p><strong>链表判环</strong></p>
+</blockquote>
+<blockquote>
+<p>如何判断一个单链表是否有环？有环的话返回进入环的第一个节点，无环的话返回空。如果链表的长度为N，请做到时间复杂度O(N)，额外空间复杂度O(1)</p>
+</blockquote>
+<h5 id="分析-8"><a href="#分析-8" class="headerlink" title="分析"></a>分析</h5><ul>
+<li><p>普通解法利用<em>哈希表</em>来实现（受额外空间复杂度限制）</p>
+<ul>
+<li>遍历链表，每遍历一个节点就在哈希表中进行记录。</li>
+<li>如果一个链表无环，则直到遍历结束时也不会出现重复的节点。此时返回空。</li>
+<li>如果一个链表有环，根据哈希表肯定会有遍历到同一个节点的情况。第一个重复的节点肯定是第一个进入环的节点。直接返回即可。</li>
+</ul>
+</li>
+<li><p>符合题目要求解法：快慢指针</p>
+<ul>
+<li>利用快慢两个指针进行遍历，快指针一次走两步，慢指针一次走一步。</li>
+<li>如果链表无环，则快指针会迅速发现链表末尾为空的位置。返回空即可。</li>
+<li>如果链表有环，则快指针和慢指针会在链表中的某个位置相遇。</li>
+<li>在相遇时刻，让快指针从链表的头部开始重新遍历，一次走一步，同时慢指针继续往下走，一次也走一步。</li>
+<li>当快慢指针再次相遇时，相遇节点即进入环的第一个节点。</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/05/5_10_3.gif" alt=""></p>
+</li>
+</ul>
+<h5 id="实现-8"><a href="#实现-8" class="headerlink" title="实现"></a>实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">chkLoop</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(head == <span class="keyword">null</span> || head.next == <span class="keyword">null</span>)</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    ListNode slow = head;</span><br><span class="line">    ListNode fast = head;</span><br><span class="line">    <span class="keyword">while</span>(fast!=<span class="keyword">null</span> &amp;&amp; fast.next!=<span class="keyword">null</span>)&#123;</span><br><span class="line">        fast = fast.next.next;</span><br><span class="line">        slow = slow.next;</span><br><span class="line">        <span class="keyword">if</span>(slow == fast)</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(slow == fast)&#123;</span><br><span class="line">        fast = head;</span><br><span class="line">        <span class="keyword">while</span>(fast!=slow)&#123;</span><br><span class="line">            fast = fast.next;</span><br><span class="line">            slow = slow.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> slow.val;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="案例十"><a href="#案例十" class="headerlink" title="案例十"></a>案例十</h4><h5 id="题目-9"><a href="#题目-9" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p><strong>无环单链表判断相交</strong></p>
+</blockquote>
+<blockquote>
+<p>如何判断两个无环单链表是否相交？相交的话返回第一个相交的节点，不相交的话返回空。如果两个链表长度分别为N和M，请做到时间复杂度O(N+M)，额外空间复杂度O(1)。</p>
+</blockquote>
+<h5 id="分析-9"><a href="#分析-9" class="headerlink" title="分析"></a>分析</h5><ul>
+<li><p>普通方法用<strong>哈希表</strong>来实现（受额外空间复杂度限制）</p>
+<ul>
+<li>先遍历第一个链表，将第一个链表的节点都存入哈希表中。</li>
+<li>遍历第二个链表，在遍历的过程中一旦遇到某个节点在哈希表中有记录，则说明这个节点在第一个链表中也存在，并且是它们第一个相交的节点。如果第二个链表遍历完了，未出现上述情况，则说明两个链表不相交。</li>
+</ul>
+</li>
+<li><p>符合题目要求的解法：</p>
+<ul>
+<li>遍历两个链表，统计两个链表各自的长度。假设一个链表长100，另一个长50。</li>
+<li>先让长为100的链表走50步，之后两个链表再一起往下遍历。</li>
+<li>如果两个链表相交的话，它们在共同走的过程中会到达第一个相交的节点。</li>
+<li>如果走到最后都没有相交，返回空。</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/05/5_10_4.gif" alt=""></p>
+</li>
+</ul>
+<h5 id="实现-9"><a href="#实现-9" class="headerlink" title="实现"></a>实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    ListNode next=<span class="keyword">null</span>;</span><br><span class="line">    ListNode(<span class="keyword">int</span> val)&#123;</span><br><span class="line">        <span class="keyword">this</span>.val = val;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">chkIntersect</span><span class="params">(ListNode headA, ListNode headB)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(headA == <span class="keyword">null</span> || headB == <span class="keyword">null</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    ListNode pA = headA;</span><br><span class="line">    ListNode pB = headB;</span><br><span class="line">    <span class="keyword">int</span> lenA = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> lenB = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (pA!=<span class="keyword">null</span>)&#123;</span><br><span class="line">        lenA++;</span><br><span class="line">        pA = pA.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (pB!=<span class="keyword">null</span>)&#123;</span><br><span class="line">        lenB++;</span><br><span class="line">        pB = pB.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> tmp = (lenA-lenB)&gt;<span class="number">0</span>?lenA-lenB:lenB-lenA;</span><br><span class="line">    <span class="keyword">if</span>(lenA&gt;lenB)&#123;</span><br><span class="line">        pA = headA;</span><br><span class="line">        <span class="keyword">while</span>(tmp--&gt;<span class="number">0</span>)&#123;</span><br><span class="line">            pA = pA.next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        pB = headB;</span><br><span class="line">        <span class="keyword">while</span>(tmp--&gt;<span class="number">0</span>)&#123;</span><br><span class="line">            pB = pB.next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(pA!=<span class="keyword">null</span> &amp;&amp; pB!=<span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(pA == pB)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        pA = pA.next;</span><br><span class="line">        pB = pB.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="案例十一"><a href="#案例十一" class="headerlink" title="案例十一"></a>案例十一</h4><h5 id="题目-10"><a href="#题目-10" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p><strong>有环单链表相交判断</strong></p>
+</blockquote>
+<blockquote>
+<p>如何判断两个有环单链表是否相交？相交的话返回第一个相交的节点，不相交的话返回空。如果两个链表长度分别为N和M，请做到时间复杂度O(M+N)，额外空间复杂度O(1)。</p>
+</blockquote>
+<h5 id="分析-10"><a href="#分析-10" class="headerlink" title="分析"></a>分析</h5><ul>
+<li><p>根据之前介绍的找到环形单链表第一个入环的方法，分别找到两个链表各自的入环节点。</p>
+</li>
+<li><p>两个链表的<strong>入环节点是同一个节点</strong>的情况：</p>
+<ul>
+<li>如果两个入环节点是同一个节点，则两个链表相交。</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/05/5_10_5.gif" alt=""></p>
+<ul>
+<li>要找到两个有环单链表相交的第一个节点，思路和求两个无环单链表相交的情况类似。仅是终止位置不同，但找的逻辑相同。在本题中，以共用的入环节点作为终止位置。</li>
+</ul>
+</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/05/5_10_6.gif" alt=""></p>
+<ul>
+<li>两个链表的<strong>入环节点不是同一个节点</strong>的情况：<ul>
+<li>有两种拓扑结构，如何区分是哪种拓扑结构呢？<ul>
+<li>从第一个链表的入环节点开始往下遍历，如果能够回到原来的出发位置，说明是结构一。这种情况下，直接返回空即可。（两个链表不相交）</li>
+<li>如果在回到原来的位置之前，遇到了第二个链表的入环节点，说明是结构二。这种情况下，返回链表1或链表2的入环节点都可以，两者都是两个链表第一次相交的节点，只不过前者离链表1近，后者离链表2近。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/05/5_10_7.gif" alt=""></p>
+<h5 id="实现-10"><a href="#实现-10" class="headerlink" title="实现"></a>实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ChkIntersection</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">chkInter</span><span class="params">(ListNode head1, ListNode head2)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// write code here</span></span><br><span class="line">        <span class="comment">// 分别找到两个链表的入环节点</span></span><br><span class="line">        ListNode p1 = find(head1);</span><br><span class="line">        ListNode p2 = find(head2);</span><br><span class="line">        <span class="keyword">if</span>(p1 == p2)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        <span class="comment">// 两个链表的入环节点不是同一个</span></span><br><span class="line">        ListNode cur = p1.next;</span><br><span class="line">        <span class="keyword">while</span>(cur!=p1)&#123;</span><br><span class="line">            <span class="keyword">if</span>(cur == p2) <span class="comment">// 如果遇到另一个链表的入环节点</span></span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            cur = cur.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 查找入环节点</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">find</span><span class="params">(ListNode head)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(head == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        ListNode slow = head;</span><br><span class="line">        ListNode fast = head;</span><br><span class="line">        <span class="keyword">while</span>(fast!=<span class="keyword">null</span> &amp;&amp; fast.next!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            fast = fast.next.next;</span><br><span class="line">            slow = slow.next;</span><br><span class="line">            <span class="keyword">if</span>(slow == fast)</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(slow == fast)&#123;</span><br><span class="line">            fast = head;</span><br><span class="line">            <span class="keyword">while</span>(fast!=slow)&#123;</span><br><span class="line">                fast = fast.next;</span><br><span class="line">                slow = slow.next;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> slow;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="案例十二"><a href="#案例十二" class="headerlink" title="案例十二"></a>案例十二</h4><h5 id="题目-11"><a href="#题目-11" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p><strong>单链表相交判断</strong></p>
+</blockquote>
+<blockquote>
+<p>给定两个单链表的头节点head1和head2，如何判断两个链表是否相交？相交的话返回第一个相交的节点，不相交的话返回空。</p>
+</blockquote>
+<h5 id="分析-11"><a href="#分析-11" class="headerlink" title="分析"></a>分析</h5><ul>
+<li>找到两个链表各自的入环节点。假设：<ul>
+<li>head1的链表入环节点为node1</li>
+<li>head2的链表入环节点为node2</li>
+</ul>
+</li>
+<li>如果node1和node2，<strong>一个为空，另一个不为空</strong>，则两个链表不可能相交。</li>
+<li>如果node1和node2<strong>都等于空</strong>，说明两个链表都无环，则可以采用案例十中的无环单链表求交的方法进行处理。</li>
+<li>如果node1和node2<strong>都不为空</strong>，说明两个链表都有环，则可以采用案例十一的方法进行后续解答。</li>
+</ul>
+<h5 id="实现-11"><a href="#实现-11" class="headerlink" title="实现"></a>实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ChkIntersection</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">chkInter</span><span class="params">(ListNode head1, ListNode head2, <span class="keyword">int</span> adjust0, <span class="keyword">int</span> adjust1)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// write code here</span></span><br><span class="line">        ListNode p1 = find(head1);</span><br><span class="line">        ListNode p2 = find(head2);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(p1!=<span class="keyword">null</span> &amp;&amp; p2!=<span class="keyword">null</span>)&#123;<span class="comment">// 都有环的情况</span></span><br><span class="line">            <span class="keyword">return</span> chkInterCircle(head1,head2);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(p1==<span class="keyword">null</span> &amp;&amp; p2==<span class="keyword">null</span>)&#123;<span class="comment">// 都没有环的情况</span></span><br><span class="line">            <span class="keyword">return</span> chkInterNotCircle(head1,head2);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 没有环情况下</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">chkInterNotCircle</span><span class="params">(ListNode headA, ListNode headB)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(headA == <span class="keyword">null</span> || headB == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        ListNode pA = headA;</span><br><span class="line">        ListNode pB = headB;</span><br><span class="line">        <span class="keyword">int</span> lenA = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> lenB = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (pA!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            lenA++;</span><br><span class="line">            pA = pA.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (pB!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            lenB++;</span><br><span class="line">            pB = pB.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> tmp = (lenA-lenB)&gt;<span class="number">0</span>?lenA-lenB:lenB-lenA;</span><br><span class="line">        <span class="keyword">if</span>(lenA&gt;lenB)&#123;</span><br><span class="line">            pA = headA;</span><br><span class="line">            <span class="keyword">while</span>(tmp--&gt;<span class="number">0</span>)&#123;</span><br><span class="line">                pA = pA.next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            pB = headB;</span><br><span class="line">            <span class="keyword">while</span>(tmp--&gt;<span class="number">0</span>)&#123;</span><br><span class="line">                pB = pB.next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(pA!=<span class="keyword">null</span> &amp;&amp; pB!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(pA == pB)</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            pA = pA.next;</span><br><span class="line">            pB = pB.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 有环情况下</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">chkInterCircle</span><span class="params">(ListNode head1, ListNode head2)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// write code here</span></span><br><span class="line">        <span class="comment">// 分别找到两个链表的入环节点</span></span><br><span class="line">        ListNode p1 = find(head1);</span><br><span class="line">        ListNode p2 = find(head2);</span><br><span class="line">        <span class="keyword">if</span>(p1 == p2)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        <span class="comment">// 两个链表的入环节点不是同一个</span></span><br><span class="line">        ListNode cur = p1.next;</span><br><span class="line">        <span class="keyword">while</span>(cur!=p1)&#123;</span><br><span class="line">            <span class="keyword">if</span>(cur == p2) <span class="comment">// 如果遇到另一个链表的入环节点</span></span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            cur = cur.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 查找入环节点</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">find</span><span class="params">(ListNode head)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(head == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        ListNode slow = head;</span><br><span class="line">        ListNode fast = head;</span><br><span class="line">        <span class="keyword">while</span>(fast!=<span class="keyword">null</span> &amp;&amp; fast.next!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            fast = fast.next.next;</span><br><span class="line">            slow = slow.next;</span><br><span class="line">            <span class="keyword">if</span>(slow == fast)</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(slow == fast)&#123;</span><br><span class="line">            fast = head;</span><br><span class="line">            <span class="keyword">while</span>(fast!=slow)&#123;</span><br><span class="line">                fast = fast.next;</span><br><span class="line">                slow = slow.next;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> slow;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018/05/04/spring-boot-two/" data-toggle="tooltip" data-placement="top"
+                           title="Spring Boot小记(2)">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/05/04/data-structure-three/" data-toggle="tooltip" data-placement="top"
+                           title="数据结构小记">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本概念"><span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#经典案例"><span class="toc-text">经典案例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#案例一"><span class="toc-text">案例一</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#实现"><span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例二"><span class="toc-text">案例二</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-1"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-1"><span class="toc-text">分析</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#常见解法"><span class="toc-text">常见解法</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#存在问题"><span class="toc-text">存在问题</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#实现-1"><span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例三"><span class="toc-text">案例三</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-2"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-2"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#实现-2"><span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例四"><span class="toc-text">案例四</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-3"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-3"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#实现-3"><span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例五"><span class="toc-text">案例五</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-4"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-4"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#实现-4"><span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例六"><span class="toc-text">案例六</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-5"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-5"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#实现-5"><span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例七"><span class="toc-text">案例七</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-6"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-6"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#实现-6"><span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例八"><span class="toc-text">案例八</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-7"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-7"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#实现-7"><span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例九"><span class="toc-text">案例九</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-8"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-8"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#实现-8"><span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例十"><span class="toc-text">案例十</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-9"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-9"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#实现-9"><span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例十一"><span class="toc-text">案例十一</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-10"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-10"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#实现-10"><span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例十二"><span class="toc-text">案例十二</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-11"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-11"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#实现-11"><span class="toc-text">实现</span></a></li></ol></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#数据结构"
+                           title="数据结构">数据结构</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/WavyPeng">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; WavyPeng 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://wavypeng.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-118054505-1';
+    var _gaDomain = 'auto';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '81b7347f8ffef0f2709479c2038df00d';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/img/avatar1.png">
+</body>
+
+</html>

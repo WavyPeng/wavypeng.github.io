@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Keep it Simple, Stupid">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/img/favicon.png">
+    <link rel="alternate" type="application/atom+xml" title="WavyPeng" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        数据结构小记｜Wavy&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://wavypeng.github.io/2018/05/04/data-structure-two/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    WavyPeng
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/My-Works/">My Works</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//p7mo7b110.bkt.clouddn.com/image/header/data-structure-header.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('//p7mo7b110.bkt.clouddn.com/image/header/data-structure-header.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>数据结构小记</h1>
+                    
+                    <h2 class="subheading">队列和栈</h2>
+                    
+                    <span class="meta">
+                         作者 Wavy Peng
+                        <span>
+                          日期 2018-05-04
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#数据结构"
+                           title="数据结构">数据结构</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            数据结构小记
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h3 id="栈和队列的基本性质"><a href="#栈和队列的基本性质" class="headerlink" title="栈和队列的基本性质"></a>栈和队列的基本性质</h3><ul>
+<li><p>栈：先进后出</p>
+</li>
+<li><p>队列：先进先出</p>
+</li>
+<li><p>栈和队列在实现结构上可以有数组和链表两种形式</p>
+<ul>
+<li>数组结构实现较容易</li>
+<li>用链表结构较复杂，因为牵扯很多指针操作</li>
+</ul>
+</li>
+<li><p>栈和队列的基本操作，时间复杂度O(1)</p>
+</li>
+<li><p>双端队列结构为首尾都可以压入和弹出元素</p>
+</li>
+<li><p>优先级队列根据元素的优先级值，决定元素的弹出顺序。优先级队列的结构为堆结构，并不是线性结构</p>
+</li>
+<li><p>两种相关的遍历方式：深度优先遍历(DFS)、宽度优先遍历(BFS)</p>
+<ul>
+<li>深度优先遍历可以用<strong>栈</strong>实现</li>
+<li><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/04/DFS-stack.gif" alt=""></li>
+</ul>
+<p>深度优先遍历的结果：1 2 4 5 3 6 7</p>
+<ul>
+<li>宽度优先遍历可以用<strong>队列</strong>实现</li>
+</ul>
+</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/04/BFS-queue.gif" alt=""></p>
+<ul>
+<li>宽度优先遍历的结果：1 2 3 4 5 6 7</li>
+<li>平时使用的递归函数实际上用到了系统提供的函数栈，所以递归的处理过程可以看作时函数入栈出栈的过程。所以用递归函数实现的过程都可以用非递归的方式实现。</li>
+</ul>
+<h4 id="栈的基本操作"><a href="#栈的基本操作" class="headerlink" title="栈的基本操作"></a>栈的基本操作</h4><ul>
+<li>pop操作</li>
+<li>top或peek操作</li>
+<li>push操作</li>
+<li>size操作</li>
+</ul>
+<h4 id="队列的基本操作"><a href="#队列的基本操作" class="headerlink" title="队列的基本操作"></a>队列的基本操作</h4><ul>
+<li>与栈操作不同的是，push操作为在队尾加入元素</li>
+<li>pop操作是从队列头部弹出一个元素</li>
+</ul>
+<h3 id="经典案例"><a href="#经典案例" class="headerlink" title="经典案例"></a>经典案例</h3><h4 id="案例一"><a href="#案例一" class="headerlink" title="案例一"></a>案例一</h4><h5 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p><strong>可查询最值的栈</strong></p>
+</blockquote>
+<blockquote>
+<p>实现一个特殊的栈，在实现栈的基本功能的基础上，再实现返回栈中最小元素的操作<code>getmin</code></p>
+</blockquote>
+<blockquote>
+<p>要求：</p>
+<p>1、pop、push、getMin操作的时间复杂度都是O(1)</p>
+<p>2、设计的栈类型可以使用现成的栈结构</p>
+</blockquote>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>定义两个栈：</p>
+<p><code>StackData</code>用来保存当前栈中的元素，功能与正常的栈无异</p>
+<p><code>StackMin</code>用来保存每次入栈的最小值</p>
+<h5 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h5><ul>
+<li><p>只有当前数小于等于<code>StackMin</code>的栈顶时，该数放入<code>StackMin</code>。</p>
+</li>
+<li><p>弹出时，先在<code>StackData</code>中弹出栈顶元素value，然后比较<code>StackMin</code>栈顶元素与value哪个更小。</p>
+<ul>
+<li>当value=<code>StackMin</code>的栈顶元素时，<code>StackMin</code>弹出当前的栈顶元素。</li>
+<li>当value&gt;<code>StackMin</code>的栈顶元素时，<code>StackMin</code>不弹出当前的栈顶元素。</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/04/getMin-1.gif" alt=""></p>
+<p>​</p>
+</li>
+</ul>
+<ul>
+<li>实现</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Stack;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Stack&lt;Integer&gt; stackData = <span class="keyword">new</span> Stack&lt;Integer&gt;();</span><br><span class="line">    Stack&lt;Integer&gt; stackMin = <span class="keyword">new</span> Stack&lt;Integer&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> node)</span> </span>&#123;</span><br><span class="line">        stackData.push(node);</span><br><span class="line">        <span class="keyword">if</span>(stackMin.isEmpty() || node &lt; stackMin.peek())</span><br><span class="line">            stackMin.push(node);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(stackData.pop()==stackMin.peek())</span><br><span class="line">            stackMin.pop();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">top</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> stackData.peek();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">min</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> stackMin.peek();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h5><ul>
+<li>当前数和<code>StackMin</code>栈顶元素比较，较小的压入<code>StackMin</code>。</li>
+<li>弹出时，<code>StackData</code>和<code>StackMin</code>同步弹出。</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/04/getMin-2.gif" alt=""></p>
+<ul>
+<li>实现</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Stack;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Stack&lt;Integer&gt; stackData = <span class="keyword">new</span> Stack&lt;Integer&gt;();</span><br><span class="line">    Stack&lt;Integer&gt; stackMin = <span class="keyword">new</span> Stack&lt;Integer&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> node)</span> </span>&#123;</span><br><span class="line">        stackData.push(node);</span><br><span class="line">        <span class="keyword">if</span>(stackMin.isEmpty() || node &lt; stackMin.peek())</span><br><span class="line">            stackMin.push(node);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            stackMin.push(stackMin.peek());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        stackData.pop();</span><br><span class="line">        stackMin.pop();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">top</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> stackData.peek();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">min</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> stackMin.peek();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><ul>
+<li>方法一和方法二都是利用第二个栈<code>StackMin</code>来保存每一步的最小值。</li>
+<li>两者时间复杂度都为O(1)，空间复杂度都为O(n)。</li>
+<li>区别：前者<code>StackMin</code>压入时稍省空间，弹出时略费时间。后者<code>StackMin</code>压入时稍费空间，弹出时略省时间。</li>
+</ul>
+<h4 id="案例二"><a href="#案例二" class="headerlink" title="案例二"></a>案例二</h4><h5 id="题目-1"><a href="#题目-1" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p><strong>双栈队列</strong></p>
+</blockquote>
+<blockquote>
+<p>编写一个类，只能用两个栈结构实现队列，支持队列的基本操作（add、poll、peek）</p>
+</blockquote>
+<h5 id="分析-1"><a href="#分析-1" class="headerlink" title="分析"></a>分析</h5><p>定义两个栈：</p>
+<p><code>StackPush</code>只往此栈中压入数据</p>
+<p><code>StackPop</code>作为弹出栈，只从这个栈中拿数据</p>
+<p>将<code>StackPush</code>中的数据倒入<code>StackPop</code>中，就将数据的顺序反过来了。此时从<code>StackPop</code>栈顶取元素就相当于从队列首部取元素。</p>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/04/stack-queue1.gif" alt=""></p>
+<h5 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h5><ul>
+<li><p>如果<code>StackPush</code>要往<code>StackPop</code>中倒入数据，那么必须保证要把<code>StackPush</code>中所有数据一次性倒完。</p>
+<ul>
+<li>错误情况举例</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/04/stack-queue2.gif" alt=""></p>
+<p>如果<code>StackPop</code>中有数据，则不能发生倒数据的行为。</p>
+<ul>
+<li>错误情况举例</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/04/stack-queue3.gif" alt=""></p>
+</li>
+<li><p>从<code>StackPush</code>倒向<code>StackPop</code>这个行为，可以选择在很多方法中包含该逻辑，但要保证倒入数据的两个注意点不被违反。</p>
+</li>
+<li><p>实现</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.Stack;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 编写一个类,只能用两个栈结构实现队列,支持队列的基本操作(push，pop)。</span></span><br><span class="line"><span class="comment"> * 给定一个操作序列ope及它的长度n，其中元素为正数代表push操作，为0代表pop操作，</span></span><br><span class="line"><span class="comment"> * 保证操作序列合法且一定含pop操作，请返回pop的结果序列。</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 测试样例：</span></span><br><span class="line"><span class="comment"> * [1,2,3,0,4,0],6</span></span><br><span class="line"><span class="comment"> * 返回：[1,2]</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Queue</span></span>&#123;</span><br><span class="line">    Stack&lt;Integer&gt; stackPush = <span class="keyword">new</span> Stack&lt;Integer&gt;();</span><br><span class="line">    Stack&lt;Integer&gt; stackPop = <span class="keyword">new</span> Stack&lt;Integer&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> node)</span></span>&#123;</span><br><span class="line">        stackPush.push(node);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">pop</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(stackPop.isEmpty())</span><br><span class="line">            <span class="keyword">while</span>(!stackPush.isEmpty())&#123;</span><br><span class="line">                stackPop.push(stackPush.pop());</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="keyword">return</span> stackPop.pop();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TwoStack</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[] twoStack(<span class="keyword">int</span>[] ope, <span class="keyword">int</span> n) &#123;</span><br><span class="line">        Queue queue = <span class="keyword">new</span> Queue();</span><br><span class="line">        ArrayList&lt;Integer&gt; tmp = <span class="keyword">new</span> ArrayList&lt;Integer&gt;();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> num:ope)&#123;</span><br><span class="line">            <span class="keyword">if</span>(num &gt; <span class="number">0</span>)&#123;</span><br><span class="line">                queue.push(num);</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(num == <span class="number">0</span>)&#123;</span><br><span class="line">                tmp.add(queue.pop());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span>[] res = <span class="keyword">new</span> <span class="keyword">int</span>[tmp.size()];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;tmp.size();i++)&#123;</span><br><span class="line">            res[i] = tmp.get(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[] ope = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">0</span>,<span class="number">4</span>,<span class="number">0</span>&#125;;</span><br><span class="line">        <span class="keyword">int</span> n = <span class="number">6</span>;</span><br><span class="line">        <span class="keyword">int</span>[] res = twoStack(ope,n);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> num:res)&#123;</span><br><span class="line">            System.out.print(num+<span class="string">" "</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+</ul>
+<h4 id="案例三"><a href="#案例三" class="headerlink" title="案例三"></a>案例三</h4><h5 id="题目-2"><a href="#题目-2" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p><strong>栈的反转</strong></p>
+</blockquote>
+<blockquote>
+<p>实现一个栈的逆序，但是只能用递归函数和这个栈本身的操作来实现，而不能自己申请另外的数据结构</p>
+</blockquote>
+<h5 id="分析-2"><a href="#分析-2" class="headerlink" title="分析"></a>分析</h5><h6 id="代码一"><a href="#代码一" class="headerlink" title="代码一"></a>代码一</h6><ul>
+<li>递归函数：移除栈底元素并返回</li>
+<li>演示过程<ul>
+<li><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/04/get.gif" alt=""></li>
+</ul>
+</li>
+<li>实现</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">get</span><span class="params">(Stack&lt;Integer&gt; stack)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> result = stack.pop();</span><br><span class="line">    <span class="keyword">if</span>(stack.isEmpty())&#123;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">int</span> last = get(stack);</span><br><span class="line">        stack.push(result);</span><br><span class="line">        <span class="keyword">return</span> last;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="代码二"><a href="#代码二" class="headerlink" title="代码二"></a>代码二</h6><ul>
+<li>递归函数：将栈中元素逆序</li>
+<li>演示过程<ul>
+<li><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/04/get1.gif" alt=""></li>
+</ul>
+</li>
+<li>实现</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reverse</span><span class="params">(Stack&lt;Integer&gt; stack)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(stack.isEmpty())&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> i = get(stack);</span><br><span class="line">    reverse(stack);</span><br><span class="line">    stack.push(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h5><ul>
+<li>方法一</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] reverseStack(<span class="keyword">int</span>[] A, <span class="keyword">int</span> n) &#123;</span><br><span class="line">    <span class="keyword">if</span>(n == <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">int</span> node = A[n-<span class="number">1</span>];</span><br><span class="line">    reverseStack(A,n-<span class="number">1</span>);</span><br><span class="line">    A[A.length-n] = node;</span><br><span class="line">    <span class="keyword">return</span> A;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>方法二</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 实现一个栈的逆序，但是只能用递归函数和这个栈本身的pop操作来实现，而不能自己申请另外的数据结构。</span></span><br><span class="line"><span class="comment"> * 给定一个整数数组A即为给定的栈，同时给定它的大小n，请返回逆序后的栈。</span></span><br><span class="line"><span class="comment"> * 测试样例：</span></span><br><span class="line"><span class="comment"> * [4,3,2,1],4</span></span><br><span class="line"><span class="comment"> * 返回：[1,2,3,4]</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StackReverse</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[] reverseStack(<span class="keyword">int</span>[] A, <span class="keyword">int</span> n) &#123;</span><br><span class="line">        <span class="keyword">int</span> index = <span class="number">0</span>; <span class="comment">//表示初始栈顶标记</span></span><br><span class="line">        reverse(A, index, n);</span><br><span class="line">        <span class="keyword">return</span> A;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">reverse</span><span class="params">(<span class="keyword">int</span>[] A, <span class="keyword">int</span> index, <span class="keyword">int</span> n)</span> </span>&#123; <span class="comment">//栈逆序</span></span><br><span class="line">        <span class="keyword">if</span>(index == n-<span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> temp = getLast(A, index, n);</span><br><span class="line">        index++;</span><br><span class="line">        reverse(A, index, n);</span><br><span class="line">        index--;</span><br><span class="line">        A[index] = temp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getLast</span><span class="params">(<span class="keyword">int</span>[] A, <span class="keyword">int</span> index, <span class="keyword">int</span> n)</span> </span>&#123; <span class="comment">//得到栈底元素</span></span><br><span class="line">        <span class="keyword">if</span>(index == n-<span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> A[index];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> temp = A[index];</span><br><span class="line">        index++;</span><br><span class="line">        <span class="keyword">int</span> last = getLast(A, index, n);</span><br><span class="line">        A[index] = temp;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> last;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[] A = &#123;<span class="number">4</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">1</span>&#125;;</span><br><span class="line">        <span class="keyword">int</span> n = <span class="number">4</span>;</span><br><span class="line">        A = reverseStack(A,n);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> a:A)&#123;</span><br><span class="line">            System.out.print(a+<span class="string">" "</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="案例四"><a href="#案例四" class="headerlink" title="案例四"></a>案例四</h4><h5 id="题目-3"><a href="#题目-3" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p><strong>双栈排序</strong></p>
+</blockquote>
+<blockquote>
+<p>一个栈中元素类型为整型，现在想将该栈从顶到底按从大到小排序，只许申请一个栈，除此之外可以申请新的变量，但不能申请额外的数据结构。如何完成排序？</p>
+</blockquote>
+<h5 id="分析-3"><a href="#分析-3" class="headerlink" title="分析"></a>分析</h5><ul>
+<li>将想要排序的栈记为<code>Stack</code>，申请的辅助栈记为<code>help</code>。</li>
+<li>在<code>Stack</code>上执行pop()操作，弹出的元素记为current。<ul>
+<li>如果current≤<code>help</code>栈顶元素，则将current直接压入<code>help</code>中；</li>
+<li>如果current&gt;<code>help</code>栈顶元素，则将<code>help</code>元素逐个弹出并重新压回<code>Stack</code>中，直到current≤<code>help</code>栈顶元素</li>
+</ul>
+</li>
+<li>一直执行上述操作，直到<code>Stack</code>中的元素都压入到<code>help</code>中。</li>
+<li>最后将<code>help</code>中的元素再压回到<code>Stack</code>中就完成排序了。</li>
+</ul>
+<h5 id="演示"><a href="#演示" class="headerlink" title="演示"></a>演示</h5><p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/04/sort.gif" alt=""></p>
+<h5 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ArrayList&lt;Integer&gt; <span class="title">twoStacksSort</span><span class="params">(<span class="keyword">int</span>[] numbers)</span> </span>&#123;</span><br><span class="line">    Stack&lt;Integer&gt; stack = <span class="keyword">new</span> Stack&lt;Integer&gt;();<span class="comment">// 原栈</span></span><br><span class="line">    Stack&lt;Integer&gt; help = <span class="keyword">new</span> Stack&lt;Integer&gt;(); <span class="comment">// 辅助栈</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 构建栈</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> num:numbers)&#123;</span><br><span class="line">        stack.push(num);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (!stack.isEmpty())&#123;</span><br><span class="line">        <span class="keyword">int</span> current = stack.pop();</span><br><span class="line">        <span class="keyword">if</span>(help.isEmpty()) &#123;</span><br><span class="line">            help.push(current);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(current &lt;= help.peek()) &#123;</span><br><span class="line">                help.push(current);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="comment">// 注意这个地方要判断help是否为空，否则会抛出异常！！！</span></span><br><span class="line">                <span class="keyword">while</span>(!help.isEmpty() &amp;&amp; current&gt;help.peek())&#123;</span><br><span class="line">                    stack.push(help.pop());</span><br><span class="line">                &#125;</span><br><span class="line">                help.push(current);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (!help.isEmpty())</span><br><span class="line">        stack.push(help.pop());</span><br><span class="line">    ArrayList&lt;Integer&gt; res = <span class="keyword">new</span> ArrayList&lt;Integer&gt;();</span><br><span class="line">    <span class="keyword">while</span> (!stack.isEmpty())</span><br><span class="line">        res.add(stack.pop());</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="案例五"><a href="#案例五" class="headerlink" title="案例五"></a>案例五</h4><h5 id="题目-4"><a href="#题目-4" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p><strong>滑动窗口问题</strong></p>
+</blockquote>
+<blockquote>
+<p>有一个整型数组arr和一个大小为w的窗口从数组的最左边滑到最右边，窗口每次向右边滑一个位置。返回一个长度为n-w+1的数组res，res[i]表示每一种窗口状态下的最大值。以数组为[4,3,5,4,3,3,6,7]，w=3为例。因为第一个窗口[4,3,5]的最大值为5，第二个窗口[3,5,4]的最大值为5，第三个窗口[5,4,3]的最大值为5，第四个窗口[4,3,3]的最大值为4，第五个窗口[3,3,6]的最大值为6，第六个窗口[3,6,7]的最大值为7。所以最终返回[5,5,5,4,6,7]。</p>
+</blockquote>
+<h5 id="分析-4"><a href="#分析-4" class="headerlink" title="分析"></a>分析</h5><p>如果数组长度为N，窗口大小为w，普通解法的时间复杂度为O(N*w)，即每次对一个窗口遍历其中的w个数，选出最大值。</p>
+<p>最优解时间复杂度O(N)。利用<code>双端队列</code>来实现最大值的更新，思路如下：</p>
+<ul>
+<li>定义双端队列<code>qmax</code>={}，双端队列存放着数组中的下标值</li>
+<li>假设当前数为arr[i]，放入规则如下：<ul>
+<li>如果<code>qmax</code>为空，直接把下标i放入<code>qmax</code>中。</li>
+<li>如果<code>qmax</code>不为空，取出当前<code>qmax</code>队尾存放的下标j：<ul>
+<li>如果arr[j]&gt;arr[i]，直接把下标i放进qmax的队尾。</li>
+<li>如果arr[j]≤arr[i]，则一直从<code>qmax</code>的队尾弹出下标，直到某个下标在<code>qmax</code>中对应的值大于arr[i]，把i放入<code>qmax</code>队尾。</li>
+</ul>
+</li>
+<li>如果<code>qmax</code>队头的下标等于i-w，弹出<code>qmax</code>当前队头下标。</li>
+</ul>
+</li>
+<li>演示过程：</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/04/window.gif" alt=""></p>
+<p>上述过程中，每个下标值最多进<code>qmax</code>一次，出<code>qmax</code>一次，所以整个过程中进出双端队列的时间复杂度为O(N)。</p>
+<h5 id="实现-2"><a href="#实现-2" class="headerlink" title="实现"></a>实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Deque;</span><br><span class="line"><span class="keyword">import</span> java.util.LinkedList;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SlideWindow</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] slide(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> n, <span class="keyword">int</span> w) &#123;</span><br><span class="line">        <span class="keyword">if</span>(arr == <span class="keyword">null</span> || n &lt; w || w&lt;<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">int</span>[] res = <span class="keyword">new</span> <span class="keyword">int</span>[n-w+<span class="number">1</span>];</span><br><span class="line">        <span class="comment">// 定义双端队列</span></span><br><span class="line">        Deque&lt;Integer&gt; deque = <span class="keyword">new</span> LinkedList&lt;Integer&gt;();</span><br><span class="line">        <span class="keyword">int</span> index=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">while</span> (!deque.isEmpty() &amp;&amp; arr[deque.peekLast()]&lt;=arr[i])</span><br><span class="line">                deque.pollLast();</span><br><span class="line">            deque.addLast(i);</span><br><span class="line">            <span class="comment">// 队头已经超过滑动窗口范围</span></span><br><span class="line">            <span class="keyword">if</span>(deque.peekFirst() == i-w)</span><br><span class="line">                deque.pollFirst();</span><br><span class="line">            <span class="comment">// 判断队列中最大值什么时候加入到结果数组</span></span><br><span class="line">            <span class="keyword">if</span>(i &gt;= w-<span class="number">1</span>)</span><br><span class="line">                res[index++] = arr[deque.peekFirst()];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="案例六"><a href="#案例六" class="headerlink" title="案例六"></a>案例六</h4><h5 id="题目-5"><a href="#题目-5" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p><strong>数组变树问题</strong></p>
+</blockquote>
+<blockquote>
+<p>给定一个没有重复元素的数组arr，写出生成这个数组的MaxTree的函数。要求如果数组长度为N，则时间复杂度为O(N)，额外空间复杂度为O(N)。MaxTree的概念如下：</p>
+<p>1、MaxTree是一棵二叉树，数组的每一个值对应一个二叉树节点。</p>
+<p>2、包括MaxTree树在内且在其中的每一棵子树上，值最大的节点都是树的头。</p>
+</blockquote>
+<h5 id="分析-5"><a href="#分析-5" class="headerlink" title="分析"></a>分析</h5><p><strong>建立树的规则：</strong></p>
+<ul>
+<li>每个数的父节点是它左边第一个比它大的数和它右边第一个比它大的数中较小的那一个</li>
+<li>若两边都不存在比它大的数，即这个数是整个数组的最大值，那么这个数就作为整个MaxTree的树根</li>
+<li>构建过程<ul>
+<li><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/04/tree.gif" alt=""></li>
+</ul>
+</li>
+</ul>
+<p><strong>证明该方法的正确性</strong>：</p>
+<ul>
+<li><p>该方法可以生成一棵树，而不是森林。</p>
+<ul>
+<li><strong>证明</strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">在数组中所有的数都不同，而一个较小的数肯定会以一个比它大的数作为父节点。那么最终所有的数向上都会找到这个数组的最大值。所以它们会有一个共同的头部。这样肯定是一棵树，而不是多棵树。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>生成的这一棵树是二叉树，而不是多叉树。</p>
+<ul>
+<li><strong>证明</strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">任何一个数在单独一侧，孩子的数量都不超过一个。</span><br><span class="line">......A......K1......K2</span><br><span class="line">A&gt;K1，且A&gt;K2</span><br><span class="line">情况①：</span><br><span class="line">假设K1&lt;K2</span><br><span class="line">根据A&gt;K2，有K1&lt;K2&lt;A</span><br><span class="line">所以根据上述方法，K1不可能以A为父节点</span><br><span class="line"></span><br><span class="line">情况②：</span><br><span class="line">假设K2&lt;K1</span><br><span class="line">根据A&gt;K1，有K2&lt;K1&lt;A</span><br><span class="line">所以根据上述方法，K2不可能以A为父节点</span><br><span class="line"></span><br><span class="line">总之，K1和K2肯定有一个不是A的孩子，A在单独一侧不可能有超过一个孩子节点的情况，最多只能有一个。</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>如何更快得到每一个数左边和右边第一个比它大的数</strong>：</p>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/04/tree2.gif" alt=""></p>
+<h5 id="实现-3"><a href="#实现-3" class="headerlink" title="实现"></a>实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Stack;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MaxTree</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] buildMaxTree(<span class="keyword">int</span>[] A, <span class="keyword">int</span> n) &#123;</span><br><span class="line">        <span class="keyword">if</span>(A == <span class="keyword">null</span> || n&lt;=<span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">int</span>[] res = <span class="keyword">new</span> <span class="keyword">int</span>[n];</span><br><span class="line">        Stack&lt;Integer&gt; stack = <span class="keyword">new</span> Stack&lt;Integer&gt;();</span><br><span class="line">        <span class="comment">// 找到当前节点左侧大于该节点值的下标</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">while</span>(!stack.isEmpty() &amp;&amp; A[stack.peek()]&lt;A[i])</span><br><span class="line">                stack.pop();</span><br><span class="line">            <span class="keyword">if</span>(stack.isEmpty())</span><br><span class="line">                res[i] = -<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                res[i] = stack.peek();</span><br><span class="line">            stack.push(i);</span><br><span class="line">        &#125;</span><br><span class="line">        stack.clear();</span><br><span class="line">        <span class="comment">// 找到当前节点左右两边比它大的值中较小的那一个</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=n-<span class="number">1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">            <span class="keyword">while</span>(!stack.isEmpty() &amp;&amp; A[stack.peek()]&lt;A[i])</span><br><span class="line">                stack.pop();</span><br><span class="line">            <span class="comment">// stack为空时，当前右侧没有比它大的值，直接采用左边找到比它大值的下标。</span></span><br><span class="line">            <span class="comment">// stack非空时，如果左边没有较大值，或者右边找到更小值，更新下标。</span></span><br><span class="line">            <span class="keyword">if</span>(!stack.isEmpty() &amp;&amp; (res[i]==-<span class="number">1</span> || A[res[i]]&gt;A[stack.peek()]))</span><br><span class="line">                res[i] = stack.peek();</span><br><span class="line">            stack.push(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018/05/04/data-structure-four/" data-toggle="tooltip" data-placement="top"
+                           title="数据结构小记">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/05/04/spring-boot-two/" data-toggle="tooltip" data-placement="top"
+                           title="Spring Boot小记(2)">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#栈和队列的基本性质"><span class="toc-text">栈和队列的基本性质</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#栈的基本操作"><span class="toc-text">栈的基本操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#队列的基本操作"><span class="toc-text">队列的基本操作</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#经典案例"><span class="toc-text">经典案例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#案例一"><span class="toc-text">案例一</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#方法一"><span class="toc-text">方法一</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#方法二"><span class="toc-text">方法二</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例二"><span class="toc-text">案例二</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-1"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-1"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#注意"><span class="toc-text">注意</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例三"><span class="toc-text">案例三</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-2"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-2"><span class="toc-text">分析</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#代码一"><span class="toc-text">代码一</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#代码二"><span class="toc-text">代码二</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#实现"><span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例四"><span class="toc-text">案例四</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-3"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-3"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#演示"><span class="toc-text">演示</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#实现-1"><span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例五"><span class="toc-text">案例五</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-4"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-4"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#实现-2"><span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例六"><span class="toc-text">案例六</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-5"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-5"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#实现-3"><span class="toc-text">实现</span></a></li></ol></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#数据结构"
+                           title="数据结构">数据结构</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/WavyPeng">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; WavyPeng 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://wavypeng.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-118054505-1';
+    var _gaDomain = 'auto';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '81b7347f8ffef0f2709479c2038df00d';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/img/avatar1.png">
+</body>
+
+</html>

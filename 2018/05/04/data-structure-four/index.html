@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Keep it Simple, Stupid">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/img/favicon.png">
+    <link rel="alternate" type="application/atom+xml" title="WavyPeng" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        数据结构小记｜Wavy&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://wavypeng.github.io/2018/05/04/data-structure-four/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    WavyPeng
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/My-Works/">My Works</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//p7mo7b110.bkt.clouddn.com/image/header/data-structure-header.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('//p7mo7b110.bkt.clouddn.com/image/header/data-structure-header.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>数据结构小记</h1>
+                    
+                    <h2 class="subheading">大数据</h2>
+                    
+                    <span class="meta">
+                         作者 Wavy Peng
+                        <span>
+                          日期 2018-05-04
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#数据结构"
+                           title="数据结构">数据结构</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            数据结构小记
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>【声明】 图源：<a href="https://www.nowcoder.com/study/vod/1/11/1" target="_blank" rel="noopener">牛客网</a></p>
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><h4 id="哈希函数"><a href="#哈希函数" class="headerlink" title="哈希函数"></a>哈希函数</h4><ul>
+<li>哈希函数又叫散列函数，哈希函数的输入域可以是非常大的范围，但是输出域是固定范围。假设为s。<ul>
+<li>典型的哈希函数都拥有无限的输入值域。</li>
+<li>输入值相同时，返回值一样。</li>
+<li>输入值不同时，返回值可能一样，也可能不一样。</li>
+<li><strong>不同输入值得到的哈希值，整体均匀的分布在输出域s上</strong>。（重要）</li>
+</ul>
+</li>
+<li>1~3点性质是哈希函数的基础，第4点是评价一个哈希函数优劣的关键。<ul>
+<li>不同输入值得到的哈希值越均匀分布在s上，该哈希函数越优秀。</li>
+<li><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/11/11_1_1.PNG" alt=""></li>
+</ul>
+</li>
+<li><code>MD5</code>与<code>SHA1</code>算法都是经典的哈希函数算法。</li>
+</ul>
+<h4 id="Map-Reduce"><a href="#Map-Reduce" class="headerlink" title="Map-Reduce"></a>Map-Reduce</h4><ul>
+<li>Map阶段<ul>
+<li>通过哈希函数把大任务分成子任务，哈希函数可以是系统默认的，也可以是用户指定的</li>
+<li>哈希值的任务会被分配到一个节点上进行处理</li>
+<li>在分布式系统中，一个节点可能是一台机器，也可能是一个计算节点</li>
+</ul>
+</li>
+<li>Reduce阶段<ul>
+<li>子任务并发处理，然后合并结果</li>
+</ul>
+</li>
+<li>难点：工程上的处理</li>
+<li>注意点：<ul>
+<li>备份的考虑，分布式存储的设计细节，以及容灾策略</li>
+<li>任务分配策略与任务进度跟踪的细节设计，节点状态的呈现</li>
+<li>多用户权限的控制</li>
+</ul>
+</li>
+</ul>
+<h3 id="Map-Reduce应用"><a href="#Map-Reduce应用" class="headerlink" title="Map-Reduce应用"></a>Map-Reduce应用</h3><h4 id="案例一"><a href="#案例一" class="headerlink" title="案例一"></a>案例一</h4><h5 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p>用map-reduce方法统计一篇文章中每个单词出现的个数</p>
+</blockquote>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><ul>
+<li>去掉文章中的标点符号</li>
+<li>对连字符号<code>-</code>的处理，如pencil-box（尤其单词在结尾处没写完，用连字符连接的情况）</li>
+<li>对于缩写的处理，如I’m，don’t，It’s，I’d like等等</li>
+<li>大小写的处理</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/11/11_1_2.PNG" alt=""></p>
+<ul>
+<li>map阶段：<ul>
+<li>对每个单词生成词频为1的记录，如(dog,1)、(pig,1)，一个单词可能有多个词频为1的记录，此时还未进行合并</li>
+<li>通过哈希函数得到每个单词的哈希值，并根据该值分成若干组任务。根据哈希函数的性质可知，单词相同的记录会被分配在一起。</li>
+<li><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/11/11_1_3.PNG" alt=""></li>
+</ul>
+</li>
+<li>reduce阶段：<ul>
+<li>每个子任务中相同单词记录进行合并，生成一个记录</li>
+<li>将所有记录返回即整篇文章的词频统计</li>
+<li><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/11/11_1_4.PNG" alt=""></li>
+<li>每个子任务是并行处理的，所以会节省时间</li>
+</ul>
+</li>
+</ul>
+<h3 id="海量处理"><a href="#海量处理" class="headerlink" title="海量处理"></a>海量处理</h3><p>常见海量处理题目解题关键</p>
+<ul>
+<li>分而治之，通过哈希函数将大任务分流到机器，或分流成小文件</li>
+<li>常用hashmap或bitmap</li>
+<li>难点：通讯、时间和空间的估算</li>
+</ul>
+<h4 id="案例一-1"><a href="#案例一-1" class="headerlink" title="案例一"></a>案例一</h4><h5 id="题目-1"><a href="#题目-1" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p>请对10亿个IPV4的ip地址进行排序，每个ip只会出现一次</p>
+</blockquote>
+<h5 id="分析-1"><a href="#分析-1" class="headerlink" title="分析"></a>分析</h5><ul>
+<li>IPV4的ip数量≈42亿</li>
+<li>普通方法：<ul>
+<li>将ip地址转换为32位无符号整数，对其进行排序后再转回ip地址的形式</li>
+<li><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/11/11_1_5.PNG" alt=""></li>
+</ul>
+</li>
+<li>更优方法：<ul>
+<li>申请长度为$2^{32}$的bit类型的数组</li>
+<li>将10亿个ip地址全部变成整数，将其在bitmap上对应的位置描黑即可</li>
+<li><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/11/11_1_6.PNG" alt=""></li>
+<li>bitmap从0位置开始依次遍历，把描黑位置对应的ip依次还原即可</li>
+<li><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/11/11_1_7.PNG" alt=""></li>
+</ul>
+</li>
+</ul>
+<h4 id="案例二"><a href="#案例二" class="headerlink" title="案例二"></a>案例二</h4><h5 id="题目-2"><a href="#题目-2" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p>请对10亿人的年龄进行排序</p>
+</blockquote>
+<h5 id="分析-2"><a href="#分析-2" class="headerlink" title="分析"></a>分析</h5><ul>
+<li>10亿个年龄分布在[0,200]之间，按计数排序即可</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/11/11_1_8.PNG" alt=""></p>
+<h4 id="案例三"><a href="#案例三" class="headerlink" title="案例三"></a>案例三</h4><h5 id="题目-3"><a href="#题目-3" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p>有一个包含20亿个全是32位整数的大文件，在其中找到出现次数最多的数，但是内存限制只有2G</p>
+</blockquote>
+<h5 id="分析-3"><a href="#分析-3" class="headerlink" title="分析"></a>分析</h5><ul>
+<li>普通方法（直接用哈希记录）<ul>
+<li>利用hashmap记录所有数出现的次数，其中<code>key</code>表示具体某一种数，<code>value</code>表示这种数出现的次数</li>
+<li><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/11/11_1_9.PNG" alt=""></li>
+<li>缺点：会导致内存不足</li>
+</ul>
+</li>
+<li>哈希分流<ul>
+<li>使用哈希函数进行分流，将大文件分成多个小文件，假设为16个小文件</li>
+<li>哈希函数性质决定同一种数不会被分流到不同文件上</li>
+<li>哈希函数对不同的数分配均匀</li>
+<li>对每个小文件用哈希表来统计每个整数出现的次数</li>
+<li>各自选出每个小文件出现次数最多的数，再从这些数中选出最大的那一个即可</li>
+<li><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/11/11_1_10.PNG" alt=""></li>
+</ul>
+</li>
+</ul>
+<h4 id="案例四"><a href="#案例四" class="headerlink" title="案例四"></a>案例四</h4><h5 id="题目-4"><a href="#题目-4" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p>32位无符号整数的范围是0~4294967295。现在有一个正好包含40亿个无符号整数的文件，所以在整个范围中必然有没出现过的数。可以使用最多10M的内存，<strong>只用找到一个没出现过的数</strong>即可，该如何找？</p>
+</blockquote>
+<h5 id="分析-4"><a href="#分析-4" class="headerlink" title="分析"></a>分析</h5><p>20亿个32位整数的大文件</p>
+<ul>
+<li>方法一<ul>
+<li>如果用<code>哈希表</code>来记录所有的数，最差情况下，将出现40亿个不同的数。</li>
+<li>每一条记录占有4字节，大约需要16G内存</li>
+</ul>
+</li>
+<li>方法二<ul>
+<li>利用<code>bitmap</code>，每个位置为1bit，只能表示0或1两种状态，大约占500M空间。</li>
+<li><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/11/11_1_11.PNG" alt=""></li>
+</ul>
+</li>
+<li>方法三<ul>
+<li>将[0,$2^{32}-1$]范围分成64个区间，单个区间可容纳$2^{32}/64$个数</li>
+<li>总共的范围为42亿，但数一共为40亿，所以必然会有区间计数不足$2^{32}/64$</li>
+<li>选择一个计数不足的区间，遍历该区间，并用bitmap统计此区间上的数的出现情况</li>
+<li>此时占用差不多8M空间</li>
+<li><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/11/11_1_12.PNG" alt=""></li>
+</ul>
+</li>
+<li>总结<ul>
+<li>根据内存限制决定区间大小，根据区间大小，得到有多少个变量，来记录每个区间的数出现的次数</li>
+<li>统计区间上的数的出现次数，找到不足的区间</li>
+<li>利用bitmap对不满的区间，进行这个区间上的数的词频统计，找到没出现过的数即可</li>
+</ul>
+</li>
+</ul>
+<h4 id="案例五"><a href="#案例五" class="headerlink" title="案例五"></a>案例五</h4><h5 id="题目-5"><a href="#题目-5" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p>某搜索公司一天的用户搜索词汇是海量的，假设有百亿的数据量，请设计一种求出每天最热100词的可行办法。</p>
+</blockquote>
+<h5 id="分析-5"><a href="#分析-5" class="headerlink" title="分析"></a>分析</h5><ul>
+<li>利用哈希函数进行分流，将包含百亿数据量的词汇文件分流到不同的机器上（机器数目视具体情况而定）</li>
+<li>对每台机器而言，如果分到的词汇量依然很大，比如内存不足或其他问题，可以再根据哈希函数将每台机器上的分流文件拆成更小的文件来进行处理。</li>
+<li>处理每一个小文件，得到每个小文件词汇的词频统计</li>
+<li>哈希表建立记录，然后遍历哈希表，使用大小为<strong>100的小根堆</strong>来选出每个小文件的top100</li>
+<li>每个小文件都有自己词频的小根堆，将小根<strong>堆</strong>里的词按照词频<strong>排序</strong>，得到每个小文件排序后的top100</li>
+<li>然后将各个小文件排序后的top100进行<strong>外排序</strong>，或者继续利用小根堆就可以选出每个机器上的top100</li>
+<li>不同机器之间的top100可以再根据外排序或继续利用小根堆求出总体数据的top100</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/11/11_1_14.PNG" alt=""></p>
+<h4 id="案例六"><a href="#案例六" class="headerlink" title="案例六"></a>案例六</h4><h5 id="题目-6"><a href="#题目-6" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p>工程师常使用服务器集群来设计和实现数据缓存，以下是常见的策略：</p>
+<p>1、无论是添加、查询还是删除数据，都先将数据的id通过哈希函数转换成一个哈希值，记为key。</p>
+<p>2、如果目前机器有N台，则计算key%N的值，这个值就是该数据所属的机器编号，无论是添加、删除还是查询操作，都只在这台机器上进行。</p>
+<p>请分析这种缓存策略可能带来的问题，并提出改进的方案。</p>
+</blockquote>
+<h5 id="分析-6"><a href="#分析-6" class="headerlink" title="分析"></a>分析</h5><p><strong>潜在问题：如果增加或删除机器，数据迁移的代价很大</strong></p>
+<p>当机器数N发生变化时，所有数据必须重新计算哈希值，以及对新的机器数M取余，来决定各自数据的归属，导致大规模的数据迁移。</p>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/11/11_1_15.PNG" alt=""></p>
+<p><strong>一致性哈希算法</strong>（很好的数据缓存设计方案）</p>
+<ul>
+<li>假设数据id通过哈希函数转换成的哈希范围是[0,$2^{32}$]</li>
+<li>将这些数字首尾相连成一个闭合的环形，数字id在计算完哈希之后可以对应到环中的某个位置</li>
+<li>假设有三台机器也处在这个环中，这三台机器在环中的位置根据机器id计算出哈希值来决定</li>
+<li>一条数据确定归属于哪台机器的方法：<ul>
+<li>首先该数据的id用哈希函数算出哈希值，并映射到环中相应的位置上</li>
+<li>之后<strong>顺时针</strong>找寻离这个数据位置最近的机器，此机器即这个数据的归属</li>
+<li><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/11/11_1_12.gif" alt=""></li>
+</ul>
+</li>
+<li>添加一台机器的处理方式：<ul>
+<li>假设有两台机器m1和m2，三个数据data1、data2和data3，数据和机器的机构如下图所示</li>
+<li>如果此时计算出m3的id，并计算出m3处在m1和m2右半侧的环中，在未添加m3之前，从m1到现在m3这一段由m2来掌管，再添加m3之后则统一归属在m3上，同时将这一段的旧数据从m2迁移到m3上。添加机器时的调整代价和数据迁移代价较小。</li>
+<li><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/11/11_1_13.gif" alt=""></li>
+</ul>
+</li>
+<li>删除一台机器的处理方式：<ul>
+<li>将删除机器的数据全部复制到<strong>顺时针</strong>的下一台机器即可。如下图所示：</li>
+<li><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/11/11_1_14.gif" alt=""></li>
+</ul>
+</li>
+</ul>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018/05/04/spring-boot-three/" data-toggle="tooltip" data-placement="top"
+                           title="Spring Boot小记(3)">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/05/04/data-structure-two/" data-toggle="tooltip" data-placement="top"
+                           title="数据结构小记">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本概念"><span class="toc-text">基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#哈希函数"><span class="toc-text">哈希函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Map-Reduce"><span class="toc-text">Map-Reduce</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Map-Reduce应用"><span class="toc-text">Map-Reduce应用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#案例一"><span class="toc-text">案例一</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析"><span class="toc-text">分析</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#海量处理"><span class="toc-text">海量处理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#案例一-1"><span class="toc-text">案例一</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-1"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-1"><span class="toc-text">分析</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例二"><span class="toc-text">案例二</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-2"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-2"><span class="toc-text">分析</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例三"><span class="toc-text">案例三</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-3"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-3"><span class="toc-text">分析</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例四"><span class="toc-text">案例四</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-4"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-4"><span class="toc-text">分析</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例五"><span class="toc-text">案例五</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-5"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-5"><span class="toc-text">分析</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例六"><span class="toc-text">案例六</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-6"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-6"><span class="toc-text">分析</span></a></li></ol></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#数据结构"
+                           title="数据结构">数据结构</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/WavyPeng">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; WavyPeng 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://wavypeng.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-118054505-1';
+    var _gaDomain = 'auto';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '81b7347f8ffef0f2709479c2038df00d';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/img/avatar1.png">
+</body>
+
+</html>
