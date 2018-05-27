@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Keep it Simple, Stupid">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/img/favicon.png">
+    <link rel="alternate" type="application/atom+xml" title="WavyPeng" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        数据结构小记｜Wavy&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://wavypeng.github.io/2018/05/27/data-structure-five/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    WavyPeng
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/My-Works/">My Works</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//p7mo7b110.bkt.clouddn.com/image/header/data-structure-header.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('//p7mo7b110.bkt.clouddn.com/image/header/data-structure-header.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>数据结构小记</h1>
+                    
+                    <h2 class="subheading">位运算</h2>
+                    
+                    <span class="meta">
+                         作者 Wavy Peng
+                        <span>
+                          日期 2018-05-27
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#数据结构"
+                           title="数据结构">数据结构</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            数据结构小记
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>【声明】 图源：<a href="https://www.nowcoder.com/study/vod/1/8/1" target="_blank" rel="noopener">牛客网</a></p>
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><ul>
+<li>算术运算的常见操作符：<code>+</code>、<code>-</code>、<code>*</code>、<code>/</code>、<code>%</code></li>
+<li>位运算的常见操作符：<code>&amp;</code>（按位与）、<code>|</code>（按位或）、<code>^</code>（按位异或）、<code>~</code>（取反）、<code>&lt;&lt;</code>（左移右侧补零）、<code>&gt;&gt;</code>（右移左侧补符号位）、<code>&gt;&gt;&gt;</code>（右移左侧补零）</li>
+</ul>
+<h3 id="经典案例"><a href="#经典案例" class="headerlink" title="经典案例"></a>经典案例</h3><h4 id="案例一"><a href="#案例一" class="headerlink" title="案例一"></a>案例一</h4><h5 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p><strong>布隆过滤器</strong></p>
+</blockquote>
+<blockquote>
+<p>不安全网页的黑名单包含100亿个黑名单网页，每个网页的URL最多占用64个字节。现在想要实现一种网页过滤系统，可以根据网页的URL判断该网页是否在黑名单。请设计系统，要求该系统允许有万分之一以下的判断失误率，并且使用额外空间不要超过30G。</p>
+</blockquote>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>考察点：大数据、位运算</p>
+<ul>
+<li>应用场景<ul>
+<li>容忍一定程度的失误率，对空间要求较严格==&gt;<strong>布隆过滤器</strong><ul>
+<li>网页黑名单系统</li>
+<li>垃圾邮件过滤系统</li>
+<li>爬虫的网址判断重复系统</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>普通方法<ul>
+<li>将黑名单存入哈希表或数据库，接下来就是对每个URL进行查询，判断其是否在黑名单里</li>
+<li>此时：数据量100亿、单个URL占64字节，则需要空间$64Byte*100亿=6400亿Byte=640G$空间</li>
+<li>此方法违反了额外空间的限制</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>布隆过滤器</strong></p>
+<ul>
+<li><p>可<strong>精确</strong>地代表一个集合</p>
+</li>
+<li><p>可<strong>精确</strong>地判断某一元素是否在此集合中</p>
+</li>
+<li><p>精确度由用户的具体设计决定，做到100%的精确是不可能的</p>
+</li>
+<li><p>优势：利用很少的空间，可以做到精确率较高</p>
+</li>
+<li><p>针对本题，布隆过滤器的具体实现思路如下：</p>
+<ul>
+<li>定义<code>bitarray</code>，每个位置一个bit，分0（白）1（黑）两种状态</li>
+<li>假设共有K个哈希函数，输出域&gt;=m，优秀且各自独立</li>
+<li>对同一个URL，经过K个哈希函数计算出来的结果也是相互独立的</li>
+<li>每个计算出来的结果对m取余，在<code>bitarray</code>上对应的位置处记录为1（描黑）</li>
+<li>接下来对所有的URL进行上述3~4操作，生成一个完整的布隆过滤器</li>
+</ul>
+</li>
+<li><p>如何检测某个URL是否在上述生成的布隆过滤器中？</p>
+<ul>
+<li>假设待测URL=a，对a进行K个哈希函数计算，结果对m取余，得到0~m-1范围上的K个值</li>
+<li>接下来在<code>bitarray</code>上比较这K个值是否都是黑的，如果有一个不为黑，则a一定不在集合里；如果都为黑，说明a在此集合里（但是也有可能产生误判）</li>
+<li>产生误判的原因：<ul>
+<li>如果在生成布隆过滤器的过程中，因为输入的对象过多而<code>bitarray</code>的空间又过小时，会导致<code>bitarray</code>上绝大多数位置都已经变黑了，在检测a时，由于K个位置上已经描黑，会错误地判断a在集合中。（宁可错杀三千，不可放过一个）</li>
+</ul>
+</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/08/8_1_1.gif" alt=""></p>
+</li>
+<li><p>布隆过滤器的<code>bitarray</code>大小如何确定？</p>
+<ul>
+<li>大小为m，样本数量为n，失误率为p，m有n和p来决定</li>
+<li>分析本题场景：n=100亿，p=0.01%，单个样本大小不影响布隆过滤器大小，只影响了哈希函数的实现细节</li>
+<li>$m=-\frac{n×lnp}{(ln2)^2}$，求得m=19.19n，向上取整为20n，2000亿bit约为25G</li>
+<li>$k=ln2×\frac{m}{n}=0.7×\frac{m}{n}$，求得k=14（需要14个彼此独立的哈希函数）</li>
+<li>只要让每个哈希函数都能接收64bytes的字符串类型参数，并且返回的哈希值范围大于0~2000亿</li>
+<li>失误率计算公式$(1-e^{-\frac{nk}{m}})^k$，求得真实失误率p=0.006% &lt; 0.01%</li>
+<li>哈希函数本身不占什么空间，所以使用的空间就是bitarray的大小即25G的空间</li>
+</ul>
+</li>
+<li><p>总结生成布隆过滤器的过程：</p>
+<ul>
+<li>注意到题目允许有一定程度的失误率</li>
+<li>根据样本个数n，和允许的失误率p，结合以下公式$m=-\frac{n×lnp}{(ln2)^2}$求出m</li>
+<li>根据已经求得的m，以及以下公式$k=ln2×\frac{m}{n}=0.7×\frac{m}{n}$求得哈希函数个数k</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="案例二"><a href="#案例二" class="headerlink" title="案例二"></a>案例二</h4><h5 id="题目-1"><a href="#题目-1" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p>如何不用任何额外变量交换两个整数的值？</p>
+</blockquote>
+<h5 id="分析-1"><a href="#分析-1" class="headerlink" title="分析"></a>分析</h5><p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/08/8_1_2.PNG" alt=""></p>
+<h5 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 解法一</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] getSwap(<span class="keyword">int</span>[] num) &#123;</span><br><span class="line">    num[<span class="number">0</span>] = num[<span class="number">0</span>] + num[<span class="number">1</span>];</span><br><span class="line">    num[<span class="number">1</span>] = num[<span class="number">0</span>] - num[<span class="number">1</span>];</span><br><span class="line">    num[<span class="number">0</span>] = num[<span class="number">0</span>] - num[<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">return</span> num;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 解法二</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] getSwap(<span class="keyword">int</span>[] num) &#123;</span><br><span class="line">    num[<span class="number">0</span>] = num[<span class="number">0</span>] ^ num[<span class="number">1</span>];</span><br><span class="line">    num[<span class="number">1</span>] = num[<span class="number">0</span>] ^ num[<span class="number">1</span>];</span><br><span class="line">    num[<span class="number">0</span>] = num[<span class="number">0</span>] ^ num[<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">return</span> num;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="案例三"><a href="#案例三" class="headerlink" title="案例三"></a>案例三</h4><h5 id="题目-2"><a href="#题目-2" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p>给定两个32位整数a和b，返回a和b中较大的。但是不能用任何比较判断</p>
+</blockquote>
+<h5 id="分析-2"><a href="#分析-2" class="headerlink" title="分析"></a>分析</h5><ul>
+<li>方法一</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/08/8_1_3.PNG" alt=""></p>
+<p><code>sign()</code>：取得32位整数符号，如果不是负数返回1，如果是负数返回0。</p>
+<p><code>getMax1()</code>：scA和scB只会有一个为1，另一个为0。如果a-b不是负数，scA为1，scB为0；如果a-b是负数，scA为0，scB为1。</p>
+<ul>
+<li>方法二</li>
+</ul>
+<p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/08/8_1_4.PNG" alt=""></p>
+<h5 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Compare</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">flip</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> n^<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sign</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> flip((n&gt;&gt;<span class="number">31</span>)&amp;<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getMax</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> c=a-b;</span><br><span class="line">        <span class="keyword">int</span> as = sign(a);</span><br><span class="line">        <span class="keyword">int</span> bs = sign(b);</span><br><span class="line">        <span class="keyword">int</span> cs = sign(c);</span><br><span class="line">        <span class="keyword">int</span> difab = as^bs;</span><br><span class="line">        <span class="keyword">int</span> sameab = flip(difab);</span><br><span class="line">        <span class="keyword">int</span> returnA = difab*as + sameab*cs;</span><br><span class="line">        <span class="keyword">int</span> returnB = flip(returnA);</span><br><span class="line">        <span class="keyword">return</span> returnA*a + returnB*b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="案例四"><a href="#案例四" class="headerlink" title="案例四"></a>案例四</h4><h5 id="题目-3"><a href="#题目-3" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p>给定一个整型数组arr，其中只有一个数出现了奇数次，其他的数都出现了偶数次，请打印这个数。要求时间复杂度为O(N)，空间复杂度为O(1)</p>
+</blockquote>
+<h5 id="分析-3"><a href="#分析-3" class="headerlink" title="分析"></a>分析</h5><ul>
+<li>n与0异或结果为n，n与n异或结果为0</li>
+<li>eo=0，arr=[C,B,D,A,A,B,C]，在遍历数组的过程中将每个数都与eo异或，最终eo=D即出现了奇数次的那个数，原因如下：<ul>
+<li>异或运算满足交换律</li>
+<li>异或运算满足结合律</li>
+</ul>
+</li>
+</ul>
+<h5 id="实现-2"><a href="#实现-2" class="headerlink" title="实现"></a>实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findOdd</span><span class="params">(<span class="keyword">int</span>[] A, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> eo = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">        eo^=A[i];</span><br><span class="line">    <span class="keyword">return</span> eo;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="案例五"><a href="#案例五" class="headerlink" title="案例五"></a>案例五</h4><h5 id="题目-4"><a href="#题目-4" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p>给定一个整型数组arr，其中有两个数出现了奇数次，其他数都出现了偶数次，打印这个数。要求时间复杂度O(n)，空间复杂度O(1)。</p>
+</blockquote>
+<h5 id="分析-4"><a href="#分析-4" class="headerlink" title="分析"></a>分析</h5><p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/08/8_1_5.PNG" alt=""></p>
+<h5 id="实现-3"><a href="#实现-3" class="headerlink" title="实现"></a>实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] findOdds(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> n) &#123;</span><br><span class="line">    <span class="keyword">int</span> eo = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">        eo^=arr[i];</span><br><span class="line">    <span class="comment">// 计算eo（32位整数）中某位为1的位置k</span></span><br><span class="line">    <span class="keyword">int</span> k=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(((eo&gt;&gt;k)&amp;<span class="number">1</span>)!=<span class="number">1</span>)</span><br><span class="line">        k++;</span><br><span class="line">    <span class="comment">// 找到两个出现奇数次数中的一个</span></span><br><span class="line">    <span class="keyword">int</span> e = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(((arr[i]&gt;&gt;k)&amp;<span class="number">1</span>)==<span class="number">1</span>)</span><br><span class="line">            e^=arr[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> e_ = eo^e;</span><br><span class="line">    <span class="keyword">int</span>[] res = &#123;Math.min(e,e_),Math.max(e,e_)&#125;;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="案例六"><a href="#案例六" class="headerlink" title="案例六"></a>案例六</h4><h5 id="题目-5"><a href="#题目-5" class="headerlink" title="题目"></a>题目</h5><blockquote>
+<p>请设计一种加密过程，完成对明文text的加密和解密工作</p>
+</blockquote>
+<h5 id="分析-5"><a href="#分析-5" class="headerlink" title="分析"></a>分析</h5><p><img src="http://p7mo7b110.bkt.clouddn.com/image/data-structure/nowcoder/08/8_1_6.PNG" alt=""></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/05/08/spring-boot-ten/" data-toggle="tooltip" data-placement="top"
+                           title="Spring Boot小记(10)">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本概念"><span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#经典案例"><span class="toc-text">经典案例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#案例一"><span class="toc-text">案例一</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析"><span class="toc-text">分析</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例二"><span class="toc-text">案例二</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-1"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-1"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#实现"><span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例三"><span class="toc-text">案例三</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-2"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-2"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#实现-1"><span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例四"><span class="toc-text">案例四</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-3"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-3"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#实现-2"><span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例五"><span class="toc-text">案例五</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-4"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-4"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#实现-3"><span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例六"><span class="toc-text">案例六</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#题目-5"><span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析-5"><span class="toc-text">分析</span></a></li></ol></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#数据结构"
+                           title="数据结构">数据结构</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/WavyPeng">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; WavyPeng 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://wavypeng.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-118054505-1';
+    var _gaDomain = 'auto';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    var _baId = '81b7347f8ffef0f2709479c2038df00d';
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?" + _baId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/img/avatar1.png">
+</body>
+
+</html>
